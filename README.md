@@ -3,7 +3,7 @@ Programs/codes for PHYS4840 -- Spring 2025
 
 
 nikiphoros_functions_lib.py
-  This is the library of all the codes I will write over the semester, this will be the place for all functions needed over homeworks, inclass works and any other possible scenario in which I need to make functions.
+  This is the library of all the function codes I will write over the semester, this will be the place for all functions needed over homeworks, inclass works and any other possible scenario in which I need to make functions.
 
 
 Feb-4-2025-NIKIPHOROS.py:
