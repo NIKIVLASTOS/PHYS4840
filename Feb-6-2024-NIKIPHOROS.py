@@ -66,18 +66,21 @@ quality_cut = np.where((green  > -99) & (blue  > -99) & (red  > -99))
 
 fig, ax = plt.subplots( figsize=(10 , 10) )
 
-accceptable_colors = color[quality_cut]
-#acceptable_Rband = magnitude[blue - red]
-acceptable_Rband = blue - red
+acceptable_colors = color[quality_cut]
+acceptable_Rband = (blue - red)[quality_cut]
 
-plt.plot(accceptable_colors, acceptable_Rband)
+plt.gca().invert_yaxis()
+
+plt.plot(acceptable_colors, acceptable_Rband)
 
 
 
 #plt.plot(color, magnitude, "ko")
-plt.savefig('terrible_figure.png')
+plt.savefig('new_figure.png')
 #fig, ax = plt.subplots( figsize=(<width> , <height>) )
 
+
+##### DID THIS WORK
 
 
 
