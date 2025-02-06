@@ -64,23 +64,26 @@ color     = blue - red
 
 quality_cut = np.where((green  > -99) & (blue  > -99) & (red  > -99))
 
-fig, ax = plt.subplots( figsize=(10 , 10) )
+fig, ax = plt.subplots( figsize=(100 , 100) )
 
 acceptable_colors = color[quality_cut]
-acceptable_Rband = (blue - red)[quality_cut]
+acceptable_Rband = magnitude[quality_cut]
 
 plt.gca().invert_yaxis()
 
 plt.plot(acceptable_colors, acceptable_Rband)
 
+plt.xlabel("Color B - R", fontsize= 10)
+plt.ylabel("Magnitutde B", fontsize=10)
 
+plt.title("Hubble space telescope Data for the Globular Cluster NGC6341", fontsize=10)
 
 #plt.plot(color, magnitude, "ko")
 plt.savefig('new_figure.png')
 #fig, ax = plt.subplots( figsize=(<width> , <height>) )
 
 
-##### DID THIS WORK
+##### DID THIS WORK TOOOOO
 
 
 
