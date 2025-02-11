@@ -252,7 +252,7 @@ git checkout main
 # Your branch is up to date with 'origin/main'.""
 
 # 3. Pull the latest changes from GitHub to avoid conflicts
-
+git pull origin main
 
 # MAY RETURN SOMETHING LIKE: "Already on 'main'
 #Your branch is up to date with 'origin/main'.
