@@ -34,8 +34,9 @@ color     = blue - red
 #plt.plot(color, magnitude, "ko")
 #plt.savefig('terrible_figure.png')
 
+#########################################################
 ### CREATING THE NEW ('IMPROVED') FIGURE ###
-
+#########################################################
 
 filename = 'NGC6341.dat'
 
@@ -83,45 +84,57 @@ ax.set_ylim(25, 13.1)  # Remember, y-axis is inverted
 #plt.show()
 
 
-
+#########################################################
 ####### PROBLEM 1  #################
-
+#########################################################
 
 # Load MIST data
 filename_mist = 'MIST_v1.2_feh_m1.75_afe_p0.0_vvcrit0.4_HST_WFPC2.iso.cmd'
-mist_data = np.loadtxt(filename_mist, skiprows=12)  # the first 13 lines of this file are hashtagged out so I am ignoring them
 
-# getting data from the columns of the Mist file
-mist_f336w = mist_data[:, 12]  # F336W magnitude (column 13)
-mist_f814w = mist_data[:, 20]  # F814W magnitude (column 21)
 
-# Exclude values marked as -99 or smaller as dr. joyce said
-quality_cut_mist = np.where((mist_f336w > -99) & (mist_f814w > -99))
+blue, green, red, membership_prob = np.loadtxt(filename, usecols=(8, 14, 26, 32), unpack=True)
 
-# Calculate color as F336W(blue) - F814W(red) for MIST
+log_age, mist_f336w, mist_f814w = np.loadtxt(filename_mist, usecols=(1,12,20), unpack=True)  # LOG AGE (column 2), F336W magnitude (column 13), # F814W magnitude (column 21)
+
+print(log_age[:5],mist_f336w[:5], mist_f814w[:5])  
+
+linear_age = np.power(10, log_age) #turn log_age into linear age
+
+print(linear_age)
+
+# Exclude values marked as -99 or smaller as Dr. Joyce said
+quality_cut_mist = (mist_f336w > -99) & (mist_f814w > -99) & (linear_age >= 12e9) & (linear_age <= 14e9)
+
+# quality cut
+mist_f336w = mist_f336w[quality_cut_mist]
+mist_f814w = mist_f814w[quality_cut_mist]
+
+
 mist_colors = mist_f336w - mist_f814w
-mist_magnitudes = mist_f336w 
+mist_magnitudes = mist_f336w
 
 # Set up the figure for plotting
 fig, ax = plt.subplots(figsize=(6, 8))
 
-# Plot NGC 6341 data
-sc = ax.scatter(acceptable_colors, acceptable_magnitudes, c=acceptable_probs, cmap='viridis', s=10, alpha=0.6)
+# Plot NGC6341 data
+sc = ax.scatter(acceptable_colors, acceptable_magnitudes, c=acceptable_probs, label='NGC6341', cmap='viridis', s=10, alpha=0.6)
 cbar = plt.colorbar(sc, ax=ax)
 cbar.set_label("Membership Probability", fontsize=12)
 
 # Overlay the MIST isochrone model
-ax.plot(mist_colors[quality_cut_mist], mist_magnitudes[quality_cut_mist], color='red', label='MIST Isochrone', lw=2)
+ax.scatter(mist_colors, mist_magnitudes, color='red', label='MIST Isochrone', s=10, alpha=0.6)
 
-# Set labels and title
+
+# labels and title
 ax.set_xlabel("COLOR: B - R", fontsize=12)
 ax.set_ylabel("MAGNITUDE: B", fontsize=12)  
-ax.set_title("Hubble Space Telescope Data and MIST Isochrone for NGC6341", fontsize=14)
+ax.set_title("Hubble Space Telescope Data \n and MIST Isochrone for NGC6341", fontsize=14)
 
-# Set limit and apply log scale
-ax.set_xlim(-2, 5)
-ax.set_ylim(25, 13.1) 
-ax.set_yscale('log')  
+# limit and apply log scale
+ax.set_xlim(-4, 7.5)
+ax.set_ylim(25, -12) 
+#ax.set_yscale('log')  
+
 
 # Show legend
 ax.legend()
@@ -131,8 +144,9 @@ plt.show()
 
 
 
-
+#########################################################
 ########################### PROBLEM 2 ###############################
+#########################################################
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -144,16 +158,17 @@ def func(x):
 # defines the x values over the domain -100 to 100
 x = np.linspace(-100, 100, 400)
 
+
+
 # Compute y values for the function
 y = func(x)
 
-# Compute log10 of the function (avoiding log of 0 by excluding x = 0)
+# Compute log10 of the function (THIS SHOULD avoiding log of 0 by excluding x = 0)
 y_log = np.log10(np.abs(y))
 
 # Set up the figure with 3 subplots
 fig, axs = plt.subplots(1, 3, figsize=(15, 5))
-
-# Plot on a linear grid (first panel)
+# Plot on a linear grid (first panel of the 3)
 axs[0].plot(x, y, color='blue', label=r'$y = x^4$', lw=2)
 axs[0].set_title('Linear Grid', fontsize=14)
 axs[0].set_xlabel('x', fontsize=12)
@@ -161,7 +176,7 @@ axs[0].set_ylabel('y', fontsize=12)
 axs[0].grid(True)
 axs[0].legend()
 
-# Plot on a log-log grid (second panel)
+# Plot on a log-log grid (second panel of the 3)
 axs[1].loglog(x[x != 0], y[x != 0], color='green', label=r'$y = x^4$', lw=2)  # Exclude x = 0
 axs[1].set_title('Log-Log Grid', fontsize=14)
 axs[1].set_xlabel('x', fontsize=12)
@@ -169,7 +184,7 @@ axs[1].set_ylabel('y', fontsize=12)
 axs[1].grid(True)
 axs[1].legend()
 
-# Plot log10 of the function on a linear grid (third panel)
+# Plot log10 of the function on a linear grid (third panel of the 3)
 axs[2].plot(x[x != 0], y_log[x != 0], color='red', label=r'$\log_{10}(y)$', lw=2)  # Exclude x = 0
 axs[2].set_title('Logarithm of y', fontsize=14)
 axs[2].set_xlabel('x', fontsize=12)
@@ -177,15 +192,17 @@ axs[2].set_ylabel(r'$\log_{10}(y)$', fontsize=12)
 axs[2].grid(True)
 axs[2].legend()
 
-# Adjust layout and show the figure
+# layout and show the figure
 plt.tight_layout()
 plt.show()
 
 
 
 
-
+#########################################################
 ##################### Problem 3 #######################
+#########################################################
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -241,7 +258,10 @@ plt.show()
 
 ## WHEN I RUN THIS ON MY COMPUTER THE GIFURE PRINTS TOO BIG TO THE SCREEN SO YOU MAY HAVE THE SHRINK THIS FIGURE TO SEE THE THIRD PLOT
 
+#########################################################
 ################ Problem 4 ########################
+#########################################################
+
 
 ## 1. Navigate to your local repository
 #cd /path/to/your/repo  
@@ -274,12 +294,22 @@ plt.show()
 
 
 
-
+#########################################################
 ############### Problem 4b #####################
+#########################################################
+
+
 # THIS IS TAKEN DIRECTLY FROM Dr Joyce's Github: PHYS4840/git_instructions.sh
 
 ## (1) navigate to the repository you want to un-git in the terminal
 ## (2) issue the following commands:
 # (3) rm -rf .git
 # (4) rm -rf .gitignore
+
+
+#########################################################
+############### Problem 5 #####################
+#########################################################
+
+# All my files have been uploaded to Github
 
