@@ -137,11 +137,11 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define the function y = x^4
+# the function y = x^4 for all of the plots
 def func(x):
     return x**4
 
-# Define the x values over the domain -100 to 100
+# defines the x values over the domain -100 to 100
 x = np.linspace(-100, 100, 400)
 
 # Compute y values for the function
@@ -190,23 +190,23 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Load data
+# Loading data using the np method Dr. Joyce showed us
 filename = "sunspots.txt"
 data = np.loadtxt(filename)
 
-# Extract columns
+# Taking the data from the correct columns in the loaded file
 time = data[:, 0]  # Time (months since Jan 1749)
 sunspots = data[:, 1]  # Sunspot numbers
 
 # Limit to first 1000 data points
-time_1000 = time[:1000]
-sunspots_1000 = sunspots[:1000]
+time_1000 = time[:1001]
+sunspots_1000 = sunspots[:1001]
 
-# Compute running average with r = 5
+# This will compute a running average with r = 5 for each point along the graph
 r = 5
 running_avg = np.convolve(sunspots_1000, np.ones(2*r + 1) / (2*r + 1), mode='valid')
 
-# Adjust time axis for running average
+# This Adjusts the time axis for running average
 avg_time = time_1000[r:-r]
 
 # Create figure with three subplots
@@ -236,8 +236,10 @@ axes[2].legend()
 axes[2].grid(True)
 
 # Adjust layout and show plot
-plt.tight_layout()
+plt.tight_layout() #makes it look good
 plt.show()
+
+## WHEN I RUN THIS ON MY COMPUTER THE GIFURE PRINTS TOO BIG TO THE SCREEN SO YOU MAY HAVE THE SHRINK THIS FIGURE TO SEE THE THIRD PLOT
 
 ################ Problem 4 ########################
 
@@ -264,7 +266,7 @@ plt.show()
 ## 4. Stage all changes (or specify files instead of `.`)
 #git add .  
 
-## 5. Commit changes with a meaningful message
+## 5. Commit changes with a message
 #git commit -m "Descriptive message about the changes"  
 
 ## 6. Push the committed changes to GitHub
@@ -278,6 +280,6 @@ plt.show()
 
 ## (1) navigate to the repository you want to un-git in the terminal
 ## (2) issue the following commands:
-rm -rf .git
-rm -rf .gitignore
+# (3) rm -rf .git
+# (4) rm -rf .gitignore
 
