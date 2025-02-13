@@ -9,6 +9,8 @@
 
 ####### PROBLEM 0 (REST OF LAB FROM FEB 6) #################
 
+##PARTS OF THE CODE for this PROBLEM WERE TAKEN FROM THE FILE: Feb-6-2024-NIKIPHOROS.py
+
 ### THIS IS THE CODE DR. JOYCE GAVE OF FOR THE 'BAD FIGURE' ###
 import numpy as np
 import matplotlib.pyplot as plt
@@ -32,7 +34,7 @@ color     = blue - red
 #plt.plot(color, magnitude, "ko")
 #plt.savefig('terrible_figure.png')
 
-### CREATING THE NEW (IMPROVED) FIGURE ###
+### CREATING THE NEW ('IMPROVED') FIGURE ###
 
 
 filename = 'NGC6341.dat'
@@ -48,7 +50,7 @@ acceptable_colors = (blue - red)[quality_cut]
 acceptable_magnitudes = blue[quality_cut]
 acceptable_probs = membership_prob[quality_cut]
 
-# This sets the figure size
+#  figure size
 fig, ax = plt.subplots(figsize=(6, 8))
 
 # THIS WILL Plot THE NEW DATA (HASHTAGGED OUT ONCE ADDED COLOR CODING)
@@ -87,7 +89,7 @@ ax.set_ylim(25, 13.1)  # Remember, y-axis is inverted
 
 # Load MIST data
 filename_mist = 'MIST_v1.2_feh_m1.75_afe_p0.0_vvcrit0.4_HST_WFPC2.iso.cmd'
-mist_data = np.loadtxt(filename_mist, skiprows=10)  
+mist_data = np.loadtxt(filename_mist, skiprows=12)  # the first 13 lines of this file are hashtagged out so I am ignoring them
 
 # getting data from the columns of the Mist file
 mist_f336w = mist_data[:, 12]  # F336W magnitude (column 13)
@@ -239,20 +241,18 @@ plt.show()
 
 ################ Problem 4 ########################
 
-### Both parts for 4 I was having a bit of trouble so I did ask chat gpt to help with the commands
+## 1. Navigate to your local repository
+#cd /path/to/your/repo  
 
-# 1. Navigate to your local repository
-cd /path/to/your/repo  
-
-# 2. Ensure you are on the main branch
-git checkout main  
+## 2. Ensure you are on the main branch
+#git checkout main  
 
 
 # MAY RETURN SOMETHING LIKE "Already on 'main'
 # Your branch is up to date with 'origin/main'.""
 
-# 3. Pull the latest changes from GitHub to avoid conflicts
-git pull origin main
+## 3. Pull the latest changes from GitHub to avoid conflicts
+#git pull origin main
 
 # MAY RETURN SOMETHING LIKE: "Already on 'main'
 #Your branch is up to date with 'origin/main'.
@@ -261,29 +261,23 @@ git pull origin main
 # * branch            main       -> FETCH_HEAD
 #Already up to date." 
 
-# 4. Stage all changes (or specify files instead of `.`)
-git add .  
+## 4. Stage all changes (or specify files instead of `.`)
+#git add .  
 
-# 5. Commit changes with a meaningful message
-git commit -m "Descriptive message about the changes"  
+## 5. Commit changes with a meaningful message
+#git commit -m "Descriptive message about the changes"  
 
-# 6. Push the committed changes to GitHub
-git push origin main  
+## 6. Push the committed changes to GitHub
+#git push origin main  
 
 
 
 
 ############### Problem 4b #####################
+# THIS IS TAKEN DIRECTLY FROM Dr Joyce's Github: PHYS4840/git_instructions.sh
 
-# 1. Navigate to the repository
-cd /path/to/your/repo  
+## (1) navigate to the repository you want to un-git in the terminal
+## (2) issue the following commands:
+rm -rf .git
+rm -rf .gitignore
 
-# 2. Remove the .git directory (this deletes all Git history and tracking)
-rm -rf .git  
-
-# 3. (Optional) Remove related Git settings from config files (if needed)
-# Example: If you had a remote set up, you may also want to remove .gitignore or any related files.
-rm -f .gitignore  
-
-# 4. Verify that Git has been removed
-ls -a  # .git should no longer be listed

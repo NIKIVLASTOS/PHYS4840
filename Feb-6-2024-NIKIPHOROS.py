@@ -1,11 +1,4 @@
-#!/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
-##########################################
-#
-###             IN CLASS STUFF February 6, 2025 
-###				Nikiphoros Vlastos
-###             
-#				Data visualization and GitHub
-###########################################
+
 
 
 
