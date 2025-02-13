@@ -143,5 +143,16 @@ def niki_y(x):
 
 
 
+#########################################################
+####### FUNCTION THAT COMPUTES A DISTANCE MODULUS GIVEN A DISTANCE IN PARSECS #################
+#########################################################
 
+
+def distance_modulus(distance_pc):
+    import math
+  
+    if distance_pc <= 0:
+        raise ValueError("Distance must be greater than zero.")
+    
+    return 5 * math.log10(distance_pc/10) 
     
