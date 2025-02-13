@@ -85,7 +85,7 @@ ax.set_ylim(25, 13.1)  # Remember, y-axis is inverted
 
 
 #########################################################
-####### PROBLEM 1  ################# IF YOU GO TO Feb-13-LABDAY.py in my Github you have my submission for this problem
+####### PROBLEM 1  ################# IF YOU GO TO Feb-13-LABDAY.py in my Github you have my submission for this problem, This will load a crude version that was done prior to class when I did not have all the instructions
 #########################################################
 
 # Load MIST data

@@ -26,7 +26,7 @@
 # HW #2 Problem #1 Help
 ###########################################
 
-from nikiphoros_functions_lib import distance_modulus
+from nikiphoros_functions_lib import distance_modulus # This function can be found in my nikiphoros_functions_lib.py folder (also on Github)
 
 Modulus = distance_modulus(8630)
 
