@@ -204,7 +204,7 @@ def trapezoidal(x_values, y_values):
         float: The approximated integral.
     """
     
-    N = len(x_values) - 1
+    N = len(x_values) - 1 # NV: this makes N the length of the x values (which just makes sense as it would not make sense to be longer than this) I talked to Dr. Miller about this
     a = x_values[0]
     b = x_values[-1]
     h = (b - a) / N  # Properly calculating h
@@ -236,7 +236,7 @@ def simpsons(x_values, y_values):
         float: The approximated integral.
     """
 
-    N = len(x_values) - 1
+    N = len(x_values) - 1 # NV: Again, this makes N the length of the x values (which just makes sense as it would not make sense to be longer than this)
     a, b = x_values[0], x_values[-1]
     h = (b - a) / N
 
@@ -290,3 +290,21 @@ def romberg(x_values, y_values, max_order):
 
     return R[max_order - 1, max_order - 1]
 
+
+
+
+
+
+
+
+
+def f_tanh(x):
+    import numpy as np
+    fx = 1.0 + 0.5*np.tanh(2.0*x)
+    return fx
+
+
+def df_dx(x):
+    import numpy as np
+    dfdx = 1.0/(np.cosh(2.0*x)**2.0)
+    return dfdx

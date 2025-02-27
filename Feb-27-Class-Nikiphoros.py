@@ -14,19 +14,12 @@ from math  import tanh, cosh
 
 #import sys
 #sys.path.append('../')
-#import nikiphoros_functions_lib as nv
+import nikiphoros_functions_lib as nv
 
 
 
 
-def f_tanh(x):
-	fx = 1.0 + 0.5*tanh(2.0*x)
-	return fx
 
-
-def df_dx(x):
-	dfdx = 1.0/(np.cosh(2.0*x)**2.0)
-	return dfdx
 
 
 ## compute the instantaneous derivatives
@@ -51,21 +44,21 @@ h = 1e-16## what goes here?
 
 central_diff_values1 = []
 for x in xdata:
-	central_difference = (f_tanh(x + 0.5*h) - f_tanh(x - 0.5*h) ) / h
+	central_difference = (nv.f_tanh(x + 0.5*h) - nv.f_tanh(x - 0.5*h) ) / h
 	central_diff_values1.append(central_difference)
 
 h = 1e-8## what goes here?
 
 central_diff_values2 = []
 for x in xdata:
-	central_difference = (f_tanh(x + 0.5*h) - f_tanh(x - 0.5*h) ) / h
+	central_difference = (nv.f_tanh(x + 0.5*h) - nv.f_tanh(x - 0.5*h) ) / h
 	central_diff_values2.append(central_difference)
 
 h = 1## what goes here?
 
 central_diff_values3 = []
 for x in xdata:
-	central_difference = (f_tanh(x + 0.5*h) - f_tanh(x - 0.5*h) ) / h
+	central_difference = (nv.f_tanh(x + 0.5*h) - nv.f_tanh(x - 0.5*h) ) / h
 	central_diff_values3.append(central_difference)
 
 
@@ -73,14 +66,14 @@ h = 2## what goes here?
 
 central_diff_values4 = []
 for x in xdata:
-	central_difference = (f_tanh(x + 0.5*h) - f_tanh(x - 0.5*h) ) / h
+	central_difference = (nv.f_tanh(x + 0.5*h) - nv.f_tanh(x - 0.5*h) ) / h
 	central_diff_values4.append(central_difference)
 
 h = 0.1## what goes here?
 
 central_diff_values5 = []
 for x in xdata:
-	central_difference = (f_tanh(x + 0.5*h) - f_tanh(x - 0.5*h) ) / h
+	central_difference = (nv.f_tanh(x + 0.5*h) - nv.f_tanh(x - 0.5*h) ) / h
 	central_diff_values5.append(central_difference)
 
 ## Add the analytical curve
@@ -88,7 +81,7 @@ for x in xdata:
 
 analytical_values = []
 for x in xdata:
-	dfdx = df_dx(x)
+	dfdx = nv.df_dx(x)
 	analytical_values.append(dfdx)
 
 
