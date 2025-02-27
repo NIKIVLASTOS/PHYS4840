@@ -308,3 +308,280 @@ def df_dx(x):
     import numpy as np
     dfdx = 1.0/(np.cosh(2.0*x)**2.0)
     return dfdx
+
+
+
+
+
+
+#########################################################
+####### FUNCTIONs For Question 0 HW#2 #################
+#########################################################
+
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+import numpy as np
+import time
+
+# Example usage with array data
+def trapezoidal1(y_values, x_values, N):
+    import numpy as np
+    """
+    Approximates the integral using trapezoidal rule for given y_values at given x_values.
+    
+    Parameters:
+        y_values (array-like): The function values at given x points.
+        x_values (array-like): The x values corresponding to y_values.
+        N (int): Number of intervals.
+
+    Returns:
+        float: The approximated integral.
+    """
+    a = 0
+    b = 1
+    h = (b-a) / N
+
+    integral = (1/2) * (y_values[0] + y_values[-1]) * h  # First and last terms
+
+    for k in range(1, N):
+        xk = a + k * h  # Compute x_k explicitly
+        yk = np.interp(xk, x_values, y_values)  # Interpolate y at x_k manually in loop
+        integral += yk * h
+
+    return integral
+
+
+# Simpson's rule for array data
+def simpsons1(y_values, x_values, N):
+    import numpy as np
+    """
+    Approximates the integral using Simpson's rule for given y_values at given x_values.
+
+    Parameters:
+        y_values (array-like): The function values at given x points.
+        x_values (array-like): The x values corresponding to y_values.
+        N (int): Number of intervals (must be even).
+
+    Returns:
+        float: The approximated integral.
+    """
+
+    a = 0
+    b = 1
+    h = (b-a) / N
+
+    integral =  (y_values[0] + y_values[-1])# First and last y_value terms
+
+    for k in range(1, N, 2):  # Odd indices (weight 4)
+        xk = a + k * h
+        yk = np.interp(xk, x_values, y_values)
+        integral += 4 * yk
+
+    for k in range(2, N, 2):  # Even indices (weight 2)
+        xk = a + k * h
+        yk = np.interp(xk, x_values, y_values)
+        integral += 2 * yk
+
+    return (h / 3) * integral  # Final scaling
+
+
+# Romberg integration for array data
+def romberg1(y_values, x_values, max_order):
+    import numpy as np
+    """
+    Approximates the integral using Romberg's method for given y_values at given x_values.
+
+    Parameters:
+        y_values (array-like): The function values at given x points.
+        x_values (array-like): The x values corresponding to y_values.
+        max_order (int): Maximum order (controls accuracy).
+
+    Returns:
+        float: The approximated integral.
+    """
+    R = np.zeros((max_order, max_order))
+    a = 0
+    b = 1
+    N = 1
+    h = (b - a)
+
+    # First trapezoidal estimate
+    R[0, 0] = (h / 2) * (y_values[0] + y_values[-1])
+
+    for i in range(1, max_order):
+        import numpy as np
+        N = 2**i #Remember: we are recomputing the integral with different N (and therefore h)
+        h =  (b-a)/2**i#Look at the github derivation for richardson extrapolation
+
+        sum_new_points = sum(np.interp(a + k * h, x_values, y_values) for k in range(1, N, 2))
+        R[i, 0] = 0.5 * R[i - 1, 0] + h * sum_new_points
+
+        for j in range(1, i + 1):
+            R[i, j] = R[i, j - 1] + (R[i, j - 1] - R[i - 1, j - 1]) / (4**j - 1)
+
+    return R[max_order - 1, max_order - 1]
+
+
+def timing_function1(integration_method, x_values, y_values, integral_arg):
+    import numpy as np
+    """
+    Times the execution of an integration method.
+
+    Parameters:
+        integration_method (function): The numerical integration function.
+        x_values (array-like): The x values.
+        y_values (array-like): The corresponding y values.
+        integral_arg (int, optional): EITHER Number of intervals to use (Simpson/Trapz) OR the maximum order of extrapolation (Romberg).
+
+    Returns:
+        tuple: (execution_time, integration_result)
+    """
+    start_time = time.time()
+    result = integration_method(y_values, x_values, integral_arg)
+    end_time = time.time()
+    
+    return end_time - start_time, result
+
+
+
+# Function to integrate
+def function1(x):
+    import numpy as np
+    return x * np.exp(-x)
+
+
+
+
+
+
+#########################################################
+####### FUNCTIONs For Question 3 HW#2 #################
+#########################################################
+
+def functz(x):
+    """Computes the value of the function f(x) = x^2."""
+    return x ** 2
+
+def compute_sum(n):
+    """Computes the sum s = sum(f(xi)) for i from 1 to n."""
+    s = 0
+    for i in range(1, n + 1):
+        s += functz(i)
+    return s
+
+
+
+def compute_average(S):
+    """Computes the average x bar of the set S."""
+    n = len(S)  # Number of elements in S
+    if n == 0:
+        return 0  # Handle case where S is empty
+    total_sum = sum(S)  # Sum of all elements in S
+    x_bar = total_sum / n  # Calculate average
+    return x_bar
+
+
+def factorial(n):
+    """Computes the factorial of n (n!)."""
+    if n < 0:
+        return "Undefined for negative numbers"  # Factorial is not defined for negative numbers
+    result = 1
+    for i in range(1, n + 1):
+        result *= i  # Multiply result by i for each i from 1 to n
+    return result
+
+
+
+
+
+
+
+#########################################################
+####### FUNCTIONs For Question 4 HW#2 #################
+#########################################################
+
+
+###########################
+## part a ### 
+###########################
+
+# This makes the function to integrate
+def function(x):
+    """Function to integrate: sin^2(x) / x^2."""
+    result = np.where(x == 0, 1, (np.sin(x)**2) / (x**2))  # We learned np.where in an intro coding class I took last year it takes (condition, x (if condition is true), y (if condition is not true))
+    return result
+
+def step(x1, x2, f1, f2, delta):
+    """Recursive function to integrate using adaptive trapezoidal rule with local extrapolation"""
+    xm = 0.5 * (x1 + x2)
+    fm = function(xm)
+    h = x2 - x1
+    
+    # Trapezoidal rule estimates
+    I1 = 0.5 * h * (f1 + f2)
+    I2 = 0.25 * h * (f1 + 2 * fm + f2)
+    
+    # Error estimate
+    error = abs(I2 - I1) / 3.0
+    
+    target = h * delta # Target accuracy for this slice
+    
+    if error < target: # checking to see if reached target accuracy
+        return (h / 6) * (f1 + 4 * fm + f2) # Use Simpson's rule if at our target accuracy for final value of integral
+    else:
+     # Recursively integrate smaller slices until we get desired accuracy
+        left = step(x1, xm, f1, fm, delta)
+        right = step(xm, x2, fm, f2, delta)
+        return left + right
+
+def adaptive_trapezoidal(a, b, epsilon):
+    """Computes the integral of f(x) from a to b to within accuracy epsilon."""
+    delta = epsilon / (b - a)
+    return step(a, b, function(a), function(b), delta)
+
+
+
+###########################
+## part c ### 
+###########################
+
+#  store slice endpoints, empty list to start
+slice_points = []
+
+def step2(x1, x2, f1, f2, delta, slice_points):
+    """trapezoidal rule with slice tracking"""
+    slice_points.extend([x1, x2])  # Store slice endpoints each time
+
+    xm = 0.5 * (x1 + x2)
+    fm = function(xm)
+    h = x2 - x1
+    
+    # Trapezoidal rule estimates
+    I1 = 0.5 * h * (f1 + f2)
+    I2 = 0.25 * h * (f1 + 2 * fm + f2)
+    
+    # Error estimate
+    error = abs(I2 - I1) / 3.0
+    target = h * delta  # Target accuracy for this slice
+
+    if error < target: # checking to see if we have reached our target accuracy
+        return (h / 6) * (f1 + 4 * fm + f2)  # Use Simpson's rule if at our target accuracy for final value of integral
+    
+    else:
+     # Recursively integrate smaller slices until we get desired accuracy
+        left = step2(x1, xm, f1, fm, delta, slice_points)
+        right = step2(xm, x2, fm, f2, delta, slice_points)
+        return left + right
+
+# integration function
+def adaptive_trapezoidal2(a, b, epsilon):
+    """Computes the integral and tracks slice points"""
+    slice_points = [] 
+    delta = epsilon / (b - a)
+    result = step2(a, b, function(a), function(b), delta, slice_points)
+    return result, slice_points

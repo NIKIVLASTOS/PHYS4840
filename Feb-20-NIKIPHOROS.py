@@ -1,7 +1,7 @@
 #!/Library/Frameworks/Python.framework/Versions/3.13/bin/python3
 ##########################################
 #
-###             Tuesday February 18, 2025
+###             Tuesday February 20, 2025
 ###				Nikiphoros Vlastos
 ###             
 #				Lecture W/ Doctor Miller
@@ -357,7 +357,7 @@ plt.show()
 plt.figure()  # Create a new figure 
 plt.plot(Trapezoid_time, Trapezoid_error, color='blue', marker='x', markersize=8, linestyle='-', label='Trapezoid_error')
 plt.plot(Simpson_time, Simpson_error, color='green', marker='x', markersize=8, linestyle='-', label='Simpson_error')
-plt.plot(romberg_time, romberg_error, color='red', marker='x', markersize=8, linestyle='-', label='romb_error')
+plt.plot(romberg_time, romberg_error, color='red', marker='x', , linestyle='-', label='romb_error')
 
 plt.xscale('log')
 plt.yscale('log')

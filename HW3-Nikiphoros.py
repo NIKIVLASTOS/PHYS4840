@@ -16,138 +16,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 
-# Example usage with array data
-def trapezoidal(y_values, x_values, N):
-    """
-    Approximates the integral using trapezoidal rule for given y_values at given x_values.
-    
-    Parameters:
-        y_values (array-like): The function values at given x points.
-        x_values (array-like): The x values corresponding to y_values.
-        N (int): Number of intervals.
 
-    Returns:
-        float: The approximated integral.
-    """
-    a = 0
-    b = 1
-    h = (b-a) / N
-
-    integral = (1/2) * (y_values[0] + y_values[-1]) * h  # First and last terms
-
-    for k in range(1, N):
-        xk = a + k * h  # Compute x_k explicitly
-        yk = np.interp(xk, x_values, y_values)  # Interpolate y at x_k manually in loop
-        integral += yk * h
-
-    return integral
-
-
-# Simpson's rule for array data
-def simpsons(y_values, x_values, N):
-    """
-    Approximates the integral using Simpson's rule for given y_values at given x_values.
-
-    Parameters:
-        y_values (array-like): The function values at given x points.
-        x_values (array-like): The x values corresponding to y_values.
-        N (int): Number of intervals (must be even).
-
-    Returns:
-        float: The approximated integral.
-    """
-
-    a = 0
-    b = 1
-    h = (b-a) / N
-
-    integral =  (y_values[0] + y_values[-1])# First and last y_value terms
-
-    for k in range(1, N, 2):  # Odd indices (weight 4)
-        xk = a + k * h
-        yk = np.interp(xk, x_values, y_values)
-        integral += 4 * yk
-
-    for k in range(2, N, 2):  # Even indices (weight 2)
-        xk = a + k * h
-        yk = np.interp(xk, x_values, y_values)
-        integral += 2 * yk
-
-    return (h / 3) * integral  # Final scaling
-
-
-# Romberg integration for array data
-def romberg(y_values, x_values, max_order):
-    """
-    Approximates the integral using Romberg's method for given y_values at given x_values.
-
-    Parameters:
-        y_values (array-like): The function values at given x points.
-        x_values (array-like): The x values corresponding to y_values.
-        max_order (int): Maximum order (controls accuracy).
-
-    Returns:
-        float: The approximated integral.
-    """
-    R = np.zeros((max_order, max_order))
-    a = 0
-    b = 1
-    N = 1
-    h = (b - a)
-
-    # First trapezoidal estimate
-    R[0, 0] = (h / 2) * (y_values[0] + y_values[-1])
-
-    for i in range(1, max_order):
-        N = 2**i #Remember: we are recomputing the integral with different N (and therefore h)
-        h =  (b-a)/2**i#Look at the github derivation for richardson extrapolation
-
-        sum_new_points = sum(np.interp(a + k * h, x_values, y_values) for k in range(1, N, 2))
-        R[i, 0] = 0.5 * R[i - 1, 0] + h * sum_new_points
-
-        for j in range(1, i + 1):
-            R[i, j] = R[i, j - 1] + (R[i, j - 1] - R[i - 1, j - 1]) / (4**j - 1)
-
-    return R[max_order - 1, max_order - 1]
-
-
-def timing_function(integration_method, x_values, y_values, integral_arg):
-    """
-    Times the execution of an integration method.
-
-    Parameters:
-        integration_method (function): The numerical integration function.
-        x_values (array-like): The x values.
-        y_values (array-like): The corresponding y values.
-        integral_arg (int, optional): EITHER Number of intervals to use (Simpson/Trapz) OR the maximum order of extrapolation (Romberg).
-
-    Returns:
-        tuple: (execution_time, integration_result)
-    """
-    start_time = time.time()
-    result = integration_method(y_values, x_values, integral_arg)
-    end_time = time.time()
-    
-    return end_time - start_time, result
-
-
-
-# Function to integrate
-def function(x):
-    return x * np.exp(-x)
-
+import nikiphoros_functions_lib as nv
 # Precompute data for fair comparisons
 x_data = np.linspace(0, 1, 100000000)  # High-resolution x values
-y_data = function(x_data)
+y_data = nv.function1(x_data)
 
 # Testing parameters
 N = 9 # Number of intervals
 max_order = 9 # Romberg's accuracy level
 
 # Measure timing for custom methods
-trap_time, trap_result = timing_function(trapezoidal, x_data, y_data, N)
-simp_time, simp_result = timing_function(simpsons, x_data, y_data, N)
-romb_time, romb_result = timing_function(romberg, x_data, y_data, max_order)
+trap_time, trap_result = nv.timing_function1(nv.trapezoidal1, x_data, y_data, N)
+simp_time, simp_result = nv.timing_function1(nv.simpsons1, x_data, y_data, N)
+romb_time, romb_result = nv.timing_function1(nv.romberg1, x_data, y_data, max_order)
 
 
 # True integral value
@@ -185,9 +67,9 @@ romberg_N = []
 
 
 # Measure timing for custom methods
-trap_time, trap_result = timing_function(trapezoidal, x_data, y_data, N)
-simp_time, simp_result = timing_function(simpsons, x_data, y_data, N)
-romb_time, romb_result = timing_function(romberg, x_data, y_data, max_order)
+trap_time, trap_result = nv.timing_function1(nv.trapezoidal1, x_data, y_data, N)
+simp_time, simp_result = nv.timing_function1(nv.simpsons1, x_data, y_data, N)
+romb_time, romb_result = nv.timing_function1(nv.romberg1, x_data, y_data, max_order)
 
 for Number in range(1,11):
 	Trapezoid_N.append(Number)
@@ -197,13 +79,13 @@ for Number in range(1,11):
 
 	
 	x_data = np.linspace(0, 1, 100000000)  # This will make a high-resolution of x values
-	y_data = function(x_data)
+	y_data = nv.function1(x_data)
 	
 
 	# Measure timing for custom methods
-	trap_time, trap_result = timing_function(trapezoidal, x_data, y_data, Number)
-	simp_time, simp_result = timing_function(simpsons, x_data, y_data, Number)
-	romb_time, romb_result = timing_function(romberg, x_data, y_data, Number)
+	trap_time, trap_result = nv.timing_function1(nv.trapezoidal1, x_data, y_data, Number)
+	simp_time, simp_result = nv.timing_function1(nv.simpsons1, x_data, y_data, Number)
+	romb_time, romb_result = nv.timing_function1(nv.romberg1, x_data, y_data, Number)
 
 
 	# True integral value
@@ -221,27 +103,7 @@ for Number in range(1,11):
 	Simpson_time.append(simp_time)
 	romberg_time.append(romb_error)
 
-	# Print results with error analysis
-	#print("\nIntegration Method Comparison")
-	#print("=" * 80) # why 80? https://peps.python.org/pep-0008/
-	#print(f"{'Method':<25}{'Result':<20}{'Error':<20}{'Time (sec)':<15}")
-	#print("-" * 80)
-	#print(f"{'Custom Trapezoidal':<25}{trap_result:<20.8f}{trap_error:<20.8e}{trap_time:<15.6f}")
-	#print(f"{'Custom Simpson\'s':<25}{simp_result:<20.8f}{simp_error:<20.8e}{simp_time:<15.6f}")
-	#print(f"{'Custom Romberg':<25}{romb_result:<20.8f}{romb_error:<20.8e}{romb_time:<15.6f}")
-	#print("=" * 80)
-   
-   
-#print(Trapezoid_N)
-#print(Trapezoid_error)
-#print(Trapezoid_time)
-#print(Simpson_N)
-#print(Simpson_error)
-#print(Simpson_time)
-#print(romberg_N)
-#print(romberg_error)
-#print(romberg_time)
-#print(romberg_N)
+
 
 plt.figure() # Create a figure
 plt.plot(Trapezoid_N, Trapezoid_error, color='blue', marker='x', markersize=8 , linestyle='-', label='Trapezoid_error')
@@ -272,6 +134,38 @@ plt.ylabel('Function Error (log scale)')
 plt.title('Comparison of Accuracy of Integration Methods V. Time')
 plt.legend()
 plt.show()
+
+plt.figure() #plotting just the trapezoid time v error
+plt.plot(Trapezoid_time, Trapezoid_error, color='blue', marker='x', markersize=8, linestyle='-', label='Trapezoid_error')
+#plt.xscale('log')
+#plt.yscale('log')
+plt.xlabel('Time')
+plt.ylabel('Function Error')
+plt.title('Comparison of Accuracy of Trapezoid Integration Methods V. Time')
+plt.legend()
+plt.show()
+
+
+plt.figure() #plotting just the simpsins time v error
+plt.plot(Simpson_time, Simpson_error, color='green', marker='x', markersize=8, linestyle='-', label='Simpson_error')
+#plt.xscale('log')
+#plt.yscale('log')
+plt.xlabel('Time (log scale)')
+plt.ylabel('Function Error (log scale)')
+plt.title('Comparison of Accuracy of Simpson Integration Method V. Time')
+plt.legend()
+plt.show()
+
+plt.figure()
+plt.plot(romberg_time, romberg_error, color='red', marker='x', markersize=8, linestyle='-', label='romb_error')
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('Time (log scale)')
+plt.ylabel('Function Error (log scale)')
+plt.title('Comparison of Accuracy of Romberg Integration Method V. Time')
+plt.legend()
+plt.show()
+
 
 
 ###########################################
@@ -350,16 +244,15 @@ plt.show()
 
 
 ##### NV:EVERYTHING ABOVE HERE (which has been commented out) was my first effort before meeting with Dr. Miller 
-#    about the reasons behind why my intergrals were what they were, Below is my improved plots
+#    about the reasons behind why my intergrals were what they were, Below is the improved code with comments and slight changes from Dr. Miller's Github
 
 
-# NV: also as this section is not code written by me any coments I made I clarified by 'NV:'
+# NV: also as this section is not code I sole wrote any coments I made I clarified by 'NV:'
 
 # NV:For this part I am improting my functions as I have the integration methods and the 'show_data' method from Dr. Miller now placed into my functions library
-import nikiphoros_functions_lib as nv
 
 # Load the CSV files into a pandas data frame
-gaia = pd.read_csv("GAIA_G.csv", header=None, names=["Wavelength", "Flux"])
+gaia = pd.read_csv("GAIA_G.csv", header=None, names=["Wavelength", "Flux"]) # NV: Here Dr. Miller is assigning the 'names' to each of the columns as they are not specified in the csv file. I could also just un hash my read in from above but for continuity have not
 vega = pd.read_csv("vega_SED.csv")
 
 # Split the data into lists
@@ -369,24 +262,24 @@ y_gaia = np.array(gaia["Flux"])
 x_vega = np.array(vega["WAVELENGTH"])
 y_vega = np.array(vega["FLUX"])
 
-nv.show_data(x_gaia, y_gaia,x_vega, y_vega) #hmm yes this looks bad (NV:I talked to Dr. Miller about why this was, also this is calling the show_data function from my library)
+nv.show_data(x_gaia, y_gaia,x_vega, y_vega) #hmm yes this looks bad (NV:I talked to Dr. Miller about why this was, also this is calling the show_data function from my library and plotting the data as it is without any further modification)
 
 #We dont need to set a seperation as we have that from the data - its already binned. 
 #Romberg still needs to know how long to compute for though 
-max_order = 8
+max_order = 8 # NV: Here the max order is being set for the next set of calculations/plots
 
-# GAIA data integration
-trapz_gaia   = nv.trapezoidal(x_gaia, y_gaia) #NV:Again these are calling the functions from my functions library
+# NV: This is the GAIA data integration for each of the three methods
+trapz_gaia   = nv.trapezoidal(x_gaia, y_gaia) #NV:Again these are calling the functions from my functions library and setting the variables to the corresponding functions
 simpson_gaia = nv.simpsons(x_gaia, y_gaia)
 romberg_gaia = nv.romberg(x_gaia, y_gaia, max_order)
 
-# Vega data integration
-trapz_vega   = nv.trapezoidal(x_vega, y_vega) #NV: Again these are calling the functions from my functions library
+# NV: This is the Vega data integration for each of the three methods
+trapz_vega   = nv.trapezoidal(x_vega, y_vega) #NV:Again these are calling the functions from my functions library and setting the variables to the corresponding functions
 simpson_vega = nv.simpsons(x_vega, y_vega)
 romberg_vega = nv.romberg(x_vega, y_vega, max_order)
 
 
-#print results
+# NV: This is printing the results of our three integration methods for our 2 different data sets
 print("GAIA Data Integration:")
 print("Trapezoidal Rule:   ", trapz_gaia)
 print("Simpson's Rule:     ", simpson_gaia)
@@ -396,33 +289,43 @@ print("\nVega Data Integration:")
 print("Trapezoidal Rule:   ", trapz_vega)
 print("Simpson's Rule:     ", simpson_vega) 
 print("Romberg Integration:", romberg_vega)
-print("=============================\n")
+print("=============================\n") 
+
+
+# NV: We see that for the Vega Data we are still getting a wide variance in our integration calculations which should not be the case! I
+# talked with Dr. Miller about this and as what is done below the problem will me remediated
 
 
 #hmmm, that plot looked bad...
 #We should remove the long tail from the Vega SED
 #Romberg does not work well with things like this.
-#See the final two paragraphs of page 162 in Mark Newmans book. NV(because it goes out for a long time with nothing we need to create a threshold to cut off the 'tail' to allow for more accurate integrations)
+#See the final two paragraphs of page 162 in Mark Newmans book. 
+#NV:because it goes out for a long time with nothing we need to create a threshold to cut off the 'tail' of the Vega data to allow for more accurate integrations)
 
 threshold_y = 0.2e-10    #at what point does the SED basically become 0?
 ## this is relative to the scale of the SED, not just some small number
+## NV: this sets the threshold at values of y that are less than 0.2e-10 (a very small number...I guess depending on what you consider small)
 
 mask = np.where(y_vega > threshold_y)
-#mask = y_vega > threshold_y     #create a mask to identify where the data is below the value     NV: I believe Dr. Miller said this part was actually written by Dr. Joyce
+#mask = y_vega > threshold_y     #create a mask to identify where the data is below the value     
+# NV: I believe Dr. Miller said this part was actually written by Dr. Joyce. What is being done is the  mask is essentially saying look in the old data and wherever the y points are greater than the threshold keep those
 x_vega = x_vega[mask]           #new data = masked old data 
 y_vega = y_vega[mask]
 
 
 nv.show_data(x_gaia, y_gaia,x_vega, y_vega) #Better, the Vega SED has a different scale to Gaia
 #Thats fine as long as we dont run into floating point uncertainty... how small can we go?
+# NV: again we are now using the show_data function to plot the new data with how it looks
 
 
 # GAIA data integration
+# NV: This Data has not changes
 trapz_gaia   = nv.trapezoidal(x_gaia, y_gaia)
 simpson_gaia = nv.simpsons(x_gaia, y_gaia)
 romberg_gaia = nv.romberg(x_gaia, y_gaia, max_order)
 
 # Vega data integration
+# NV: now we are going to calculate the new results and they should be close in agreement if our 'mask/threshold worked'
 trapz_vega   = nv.trapezoidal(x_vega, y_vega)
 simpson_vega = nv.simpsons(x_vega, y_vega)
 romberg_vega = nv.romberg(x_vega, y_vega, max_order)
@@ -470,68 +373,70 @@ print("Romberg Integration:", romberg_vega)
 
 
 ###########################################
-# Question #3:
+# Question #3: I Have hashed out my functions as they are in my functions library but left them so You can see what they look like
 ###########################################
 
 
-# The problem did not say to have these functions in our library functions library so I have the functions directly in here but could move them if that is what is neccesary
+# The problem did not say to have these functions in our library functions library 
+# so I have the functions directly in here so you can see thembut could move 
+# them if that is what is neccesary. They are also in my library
 
 ## part a ### 
 
-def f(x):
-    """Computes the value of the function f(x) = x^2."""
-    return x ** 2
+#def functz(x):
+#    """Computes the value of the function f(x) = x^2."""
+#    return x ** 2
 
-def compute_sum(n):
-    """Computes the sum s = sum(f(xi)) for i from 1 to n."""
-    s = 0
-    for i in range(1, n + 1):
-        s += f(i)
-    return s
+#def compute_sum(n):
+#    """Computes the sum s = sum(f(xi)) for i from 1 to n."""
+#    s = 0
+#    for i in range(1, n + 1):
+#        s += functz(i)
+#    return s
 
 # Example 
 n = 10  # You can change this value to compute the sum for different n
-result = compute_sum(n)
+result = nv.compute_sum(n)
 print(f"The sum s from 1 to {n} of f(x) where f(x) = x^2 is: {result}")
 
 
 ## part b ### 
 
-def compute_average(S):
-    """Computes the average x bar of the set S."""
-    n = len(S)  # Number of elements in S
-    if n == 0:
-        return 0  # Handle case where S is empty
-    total_sum = sum(S)  # Sum of all elements in S
-    x_bar = total_sum / n  # Calculate average
-    return x_bar
+#def compute_average(S):
+#    """Computes the average x bar of the set S."""
+#    n = len(S)  # Number of elements in S
+#    if n == 0:
+#        return 0  # Handle case where S is empty
+#    total_sum = sum(S)  # Sum of all elements in S
+#    x_bar = total_sum / n  # Calculate average
+#    return x_bar
 
 # Example 
 S = [1, 2, 3, 4, 5]  # You can change this list to any group of numbers
-average = compute_average(S)
+average = nv.compute_average(S)
 print(f"The average x bar of the set S is: {average}")
 
 
 ## part c ### 
 
-def factorial(n):
-    """Computes the factorial of n (n!)."""
-    if n < 0:
-        return "Undefined for negative numbers"  # Factorial is not defined for negative numbers
-    result = 1
-    for i in range(1, n + 1):
-        result *= i  # Multiply result by i for each i from 1 to n
-    return result
+#def factorial(n):
+#    """Computes the factorial of n (n!)."""
+#    if n < 0:
+#        return "Undefined for negative numbers"  # Factorial is not defined for negative numbers
+#    result = 1
+#    for i in range(1, n + 1):
+#        result *= i  # Multiply result by i for each i from 1 to n
+#    return result
 
 # Example 
 n = 3  # You can change this value to compute the factorial of any non-negative integer
-fact = factorial(n)
+fact = nv.factorial(n)
 print(f"The factorial of {n} is: {fact}")
 
 
 
 ###########################################
-# Question #4: Book Excercise 5.20
+# Question #4: Book Excercise 5.20: AGAIN, I Have hashed out my functions as they are in my functions library but left them so You can see what they look like
 ###########################################
 
 ###########################
@@ -539,42 +444,42 @@ print(f"The factorial of {n} is: {fact}")
 ###########################
 
 # This makes the function to integrate
-def f(x):
-    """Function to integrate: sin^2(x) / x^2."""
-    result = np.where(x == 0, 1, (np.sin(x)**2) / (x**2))  # We learned np.where in an intro coding class I took last year it takes (condition, x (if condition is true), y (if condition is not true))
-    return result
+#def function(x):
+#    """Function to integrate: sin^2(x) / x^2."""
+#    result = np.where(x == 0, 1, (np.sin(x)**2) / (x**2))  # We learned np.where in an intro coding class I took last year it takes (condition, x (if condition is true), y (if condition is not true))
+#    return result
 
-def step(x1, x2, f1, f2, delta):
-    """Recursive function to integrate using adaptive trapezoidal rule with local extrapolation"""
-    xm = 0.5 * (x1 + x2)
-    fm = f(xm)
-    h = x2 - x1
+#def step(x1, x2, f1, f2, delta):
+ #   """Recursive function to integrate using adaptive trapezoidal rule with local extrapolation"""
+ #   xm = 0.5 * (x1 + x2)
+ #   fm = function(xm)
+ #   h = x2 - x1
+ #   
+ #   # Trapezoidal rule estimates
+ #   I1 = 0.5 * h * (f1 + f2)
+ #   I2 = 0.25 * h * (f1 + 2 * fm + f2)
+ #   
+ #   # Error estimate
+ #   error = abs(I2 - I1) / 3.0
+ #   
+ #   target = h * delta # Target accuracy for this slice
     
-    # Trapezoidal rule estimates
-    I1 = 0.5 * h * (f1 + f2)
-    I2 = 0.25 * h * (f1 + 2 * fm + f2)
-    
-    # Error estimate
-    error = abs(I2 - I1) / 3.0
-    
-    target = h * delta # Target accuracy for this slice
-    
-    if error < target: # checking to see if reached target accuracy
-        return (h / 6) * (f1 + 4 * fm + f2) # Use Simpson's rule if at our target accuracy for final value of integral
-    else:
-     # Recursively integrate smaller slices until we get desired accuracy
-        left = step(x1, xm, f1, fm, delta)
-        right = step(xm, x2, fm, f2, delta)
-        return left + right
+ #   if error < target: # checking to see if reached target accuracy
+ #       return (h / 6) * (f1 + 4 * fm + f2) # Use Simpson's rule if at our target accuracy for final value of integral
+ #   else:
+ #    # Recursively integrate smaller slices until we get desired accuracy
+ #       left = step(x1, xm, f1, fm, delta)
+ #       right = step(xm, x2, fm, f2, delta)
+ #       return left + right
 
-def adaptive_trapezoidal(a, b, epsilon):
-    """Computes the integral of f(x) from a to b to within accuracy epsilon."""
-    delta = epsilon / (b - a)
-    return step(a, b, f(a), f(b), delta)
+#def adaptive_trapezoidal(a, b, epsilon):
+#    """Computes the integral of f(x) from a to b to within accuracy epsilon."""
+#    delta = epsilon / (b - a)
+#    return step(a, b, function(a), function(b), delta)
 
 # Compute the integral from 0 to 10 with accuracy 10^-4
 a, b, epsilon = 0, 10, 1e-4
-result = adaptive_trapezoidal(a, b, epsilon)
+result = nv.adaptive_trapezoidal(a, b, epsilon)
 print(f"Computed integral: {result:.6f}")
 
 ###########################
@@ -596,52 +501,47 @@ print(f"Computed integral: {result:.6f}")
 ## part c ### 
 ###########################
 
-
-# This makes the function to integrate
-def f(x):
-    """Function to integrate: sin^2(x) / x^2."""
-    result = np.where(x == 0, 1, (np.sin(x)**2) / (x**2))  # We learned np.where in an intro coding class I took last year it takes (condition, x (if condition is true), y (if condition is not true))
-    return result
-
 #  store slice endpoints, empty list to start
 slice_points = []
 
-def step(x1, x2, f1, f2, delta, slice_points):
-    """trapezoidal rule with slice tracking"""
-    slice_points.extend([x1, x2])  # Store slice endpoints each time
+#def step2(x1, x2, f1, f2, delta, slice_points):
+#    """trapezoidal rule with slice tracking"""
+#    slice_points.extend([x1, x2])  # Store slice endpoints each time#
 
-    xm = 0.5 * (x1 + x2)
-    fm = f(xm)
-    h = x2 - x1
-    
-    # Trapezoidal rule estimates
-    I1 = 0.5 * h * (f1 + f2)
-    I2 = 0.25 * h * (f1 + 2 * fm + f2)
-    
-    # Error estimate
-    error = abs(I2 - I1) / 3.0
-    target = h * delta  # Target accuracy for this slice
+#    xm = 0.5 * (x1 + x2)
+#    fm = function(xm)
+#    h = x2 - x1
+#    
+#    # Trapezoidal rule estimates
+#    I1 = 0.5 * h * (f1 + f2)
+#    I2 = 0.25 * h * (f1 + 2 * fm + f2)
+#    
+#    # Error estimate
+ #   error = abs(I2 - I1) / 3.0
+ #   target = h * delta  # Target accuracy for this slice
 
-    if error < target: # checking to see if we have reached our target accuracy
-        return (h / 6) * (f1 + 4 * fm + f2)  # Use Simpson's rule if at our target accuracy for final value of integral
-    
-    else:
-     # Recursively integrate smaller slices until we get desired accuracy
-        left = step(x1, xm, f1, fm, delta, slice_points)
-        right = step(xm, x2, fm, f2, delta, slice_points)
-        return left + right
+#    if error < target: # checking to see if we have reached our target accuracy
+#        return (h / 6) * (f1 + 4 * fm + f2)  # Use Simpson's rule if at our target accuracy for final value of integral
+#    
+#    else:
+#     # Recursively integrate smaller slices until we get desired accuracy
+#        left = step2(x1, xm, f1, fm, delta, slice_points)
+#        right = step2(xm, x2, fm, f2, delta, slice_points)
+#        return left + right
 
 # integration function
-def adaptive_trapezoidal(a, b, epsilon):
-    """Computes the integral and tracks slice points"""
-    slice_points = [] 
-    delta = epsilon / (b - a)
-    result = step(a, b, f(a), f(b), delta, slice_points)
-    return result, slice_points
+#def adaptive_trapezoidal2(a, b, epsilon):
+#    """Computes the integral and tracks slice points"""
+#    slice_points = [] 
+#    delta = epsilon / (b - a)
+#    result = step2(a, b, function(a), function(b), delta, slice_points)
+#    return result, slice_points
+
+
 
 # Compute the actual integral
 a, b, epsilon = 0, 10, 1e-4
-result, slice_points = adaptive_trapezoidal(a, b, epsilon)
+result, slice_points = nv.adaptive_trapezoidal2(a, b, epsilon)
 print(f"Computed integral: {result:.6f}")
 
 # Remove duplicate points and sort for plotting
@@ -649,11 +549,11 @@ slice_points = sorted(set(slice_points))
 
 # Plot function
 x_vals = np.linspace(a, b, 1000)
-y_vals = f(x_vals)
+y_vals = nv.function(x_vals)
 
 plt.figure(figsize=(10, 5))
 plt.plot(x_vals, y_vals, label=r'$f(x) = \frac{\sin^2(x)}{x^2}$', color='blue')
-plt.scatter(slice_points, f(np.array(slice_points)), color='red', label='Integration slice points', zorder=3, s=20) #zorder will set the red dots inthe front of the plot
+plt.scatter(slice_points, nv.function(np.array(slice_points)), color='red', label='Integration slice points', zorder=3, s=20) #zorder will set the red dots inthe front of the plot
 plt.xlabel("x")
 plt.ylabel("f(x)")
 plt.legend()
