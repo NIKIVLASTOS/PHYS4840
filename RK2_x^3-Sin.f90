@@ -17,17 +17,17 @@ program RungeKutta2
     call cpu_time(start_time)  
 
     ! Open a file to store results
-    open(unit=10, file="rk2_results.dat", status="replace")
+    open(unit=10, file="rk2_resultsHW.dat", status="replace")
     write(10,*) "t x"
     write(10,*) t, x
     
     ! RK2 integration loop
     do i = 1, n
-        k1 = dt * (-x**3 + sin(t))
-        k2 = dt * (-(x + 0.5d0*k1)**3 + sin(t + 0.5d0*dt))
+        k1 = dt * (-x**3 + sin(t))  ! First stage of RK2
+        k2 = dt * (-(x + 0.5d0*k1)**3 + sin(t + 0.5d0*dt))  ! Second stage of RK2
         
-        x = x + k2
-        t = t + dt
+        x = x + k2  ! Update the value of x
+        t = t + dt  ! Update the time
         
         ! Write results to file
         write(10,*) t, x
@@ -41,7 +41,7 @@ program RungeKutta2
     close(10)
 
     ! Print execution time
-    print *, "Integration complete. Results saved to rk2_results.dat"
+    print *, "Integration complete. Results saved to rk2_resultsHW.dat"
     print *, "Execution time (seconds):", elapsed_time
 
 end program RungeKutta2
