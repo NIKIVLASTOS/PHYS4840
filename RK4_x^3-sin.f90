@@ -11,13 +11,13 @@ program RungeKutta4
     t_end = 10.0d0 ! Final time
     
     ! Number of time steps
-    n = int((t_end - t) / dt)
+    n =  10000 !int((t_end - t) / dt)
 
     ! Start timing
-    call cpu_time(start_time)
+    ! call cpu_time(start_time)
 
     ! Open a file to store results
-    open(unit=10, file="rk4_resultsHW.dat", status="replace")
+    open(unit=10, file="rk4_resultsHW10000.dat", status="replace")
     write(10,*) "t x"
     
     ! Initialize t and x for the interval [0, 10]
@@ -43,15 +43,15 @@ program RungeKutta4
     end do
 
     ! Stop timing
-    call cpu_time(end_time)
-    elapsed_time = end_time - start_time
+    ! call cpu_time(end_time)
+    ! elapsed_time = end_time - start_time
 
     ! Close the file
     close(10)
 
     ! Print execution time
-    print *, "Integration complete. Results saved to rk4_resultsHW.dat"
-    print *, "Execution time (seconds):", elapsed_time
+    print *, "Integration complete. Results saved to rk4_resultsHW10000.dat"
+    ! print *, "Execution time (seconds):", elapsed_time
 
 end program RungeKutta4
 

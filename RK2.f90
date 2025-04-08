@@ -11,13 +11,13 @@ program RungeKutta2
     t_end = 10.0d0 
     
     ! Number of time steps
-    n = int((t_end - t) / dt) 
+    n = 10000 !int((t_end - t) / dt) 
 
     ! Start timing
     call cpu_time(start_time)  
 
     ! Open a file to store results
-    open(unit=10, file="rk2_results.dat", status="replace")
+    open(unit=10, file="rk2_results10000.dat", status="replace")
     write(10,*) "t x"
     write(10,*) t, x
     
@@ -41,7 +41,7 @@ program RungeKutta2
     close(10)
 
     ! Print execution time
-    print *, "Integration complete. Results saved to rk2_results.dat"
+    print *, "Integration complete. Results saved to rk2_results10000.dat"
     print *, "Execution time (seconds):", elapsed_time
 
 end program RungeKutta2

@@ -7,17 +7,17 @@ program RungeKutta4
     ! Define initial conditions
     t = 0.0d0      ! Initial time
     x = 1.0d0      ! Initial condition for x
-    dt = 0.1d0     ! Time step
+    dt = 1.0d0     ! Time step
     t_end = 10.0d0 ! Final time
     
     ! Number of time steps
-    n = int((t_end - t) / dt)
+    n = 10000 ! int((t_end - t) / dt) 
     
     ! Start timing
-    call cpu_time(start_time)
+    ! call cpu_time(start_time) I TRIED TIMING IT ANOTHER WAY
 
     ! Open a file to store results
-    open(unit=10, file="rk4_results.dat", status="replace")
+    open(unit=10, file="rk4_results10000.dat", status="replace")
     write(10,*) "t x"
     write(10,*) t, x
     
@@ -37,14 +37,14 @@ program RungeKutta4
     end do
 
     ! Stop timing
-    call cpu_time(end_time)
-    elapsed_time = end_time - start_time
+    ! call cpu_time(end_time)
+    ! elapsed_time = end_time - start_time
 
     ! Close the file
     close(10)
 
     ! Print execution time
-    print *, "Integration complete. Results saved to rk4_results.dat"
-    print *, "Execution time (seconds):", elapsed_time
+    print *, "Integration complete. Results saved to rk4_results10000.dat"
+    ! print *, "Execution time (seconds):", elapsed_time
 
 end program RungeKutta4
