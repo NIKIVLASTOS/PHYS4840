@@ -13,6 +13,15 @@
 # My timing code for Fortran (the bash file) Can be found in time_fortran.sh
 # My code for FORTRAN RUNGE KUTA for Problems 2,3,4 can be found in RK2_x^3-sin.f90 and RK4_x^3-sin.f90
 
+#Some of the code, specifically the FORTRAN code was altered depending on N values, 
+#and so may not reflect the exact code used for a specific question, this includes the timing 
+#bash code as well as the name of the file you are making executable or running will change, 
+#however this is not at all changing the structure of the code and I did not want to have to make 
+#it so you had to look at many many different code files. The changes made are simply to variables 
+#or to names of files being called which I figured was rudimentary enough that it could be assumed 
+#I knew how to do it as I did it for the problems just had to change things such as the timing bash 
+#script each time trying a different N
+
 
 ################## IN CLASS WORK (QUESTION 0) #############################
 ############# IN CLASS EXCERCISE #1 ###################
@@ -37,9 +46,9 @@ def differential_eq(x, t):
     return x**2 - x  # dx/dt = x^2 - x
 
 # Initial conditions
-x0 = 0.5  # Only works when it is 0.5?
+x0 = 0.5  # Only works when it is 0.5? Was having trouble here but I believe I got it working
 t0 = 0
-t_end = 1000
+t_end = 10
 dt_values = [0.1]  # Trying with multiple dt values woul look like: dt_values = [0.1, 0.05, 0.01, 0.005]
 
 # Start timing
@@ -96,8 +105,8 @@ def differential_eq(x, t):
 # Initial conditions
 x0 = 0.5
 t0 = 0
-t_end = 10000
-dt_values = [0.1]  # Trying with multiple dt values Would look like: dt_values = [0.1, 0.05, 0.01, 0.005]
+t_end = 10
+dt_values = [0.1]  # As above Trying with multiple dt values Would look like: dt_values = [0.1, 0.05, 0.01, 0.005]
 
 plt.figure(figsize=(8, 5))
 
@@ -155,7 +164,7 @@ plt.show()
 ############# IN CLASS EXCERCISE #4 ###################
 
 
-# Correct filename
+# This loads in the rk4 results
 filename3 = 'rk4_results10000.dat'
 filename4 = 'rk4_resultsFUNCTION.dat'
 
@@ -166,7 +175,7 @@ t4, x4 = np.loadtxt(filename4, usecols=(0, 1), unpack=True, skiprows=1)
 # Create a single plot
 fig, axes = plt.subplots(2, 1, figsize=(10, 12))
 
-# Plot the RK4 results
+# Plot the rk4 results
 axes[0].plot(t3, x3, color="blue", alpha=0.6, label="10000 Approximation")
 axes[0].set_title("QUESTION 0: RK4 FORTRAN: N =  10000")
 axes[1].plot(t4, x4, color="blue", alpha=0.6, label="Function Approximation")
@@ -187,14 +196,16 @@ plt.show()
 # Execution time RK4 PYTHON N=10000: 0.370754 seconds
 
 #FOR RK2 FORTRAN:
-#Execution time (seconds):   2.7930000000000000E-002
-#Compilation time: 1.0 seconds
-#Execution time: 0 seconds
+#Compilation time: .819792000 seconds
+#Execution time: .352608000 seconds
 
 
 #FOR RK4 FORTRAN:
-#Compilation time: 0 seconds
-#Execution time: 0 seconds
+#Compilation time: .808177000 seconds
+#Execution time: .356313000 seconds
+
+### For N=10000 (actually 100000 b/c dt = 0.1 for all of them) Python was fast in RK2 by roughlt 0.15 seconds, 
+# while for Fortran was faster for RK4 by roughly 0.02 seconds
 
 
 
@@ -203,7 +214,7 @@ plt.show()
 
 
 def square_wave(t):
-    """Generates a square wave with frequency 1 and amplitude 1."""
+    """Generates a square wave with frequency 1 and amplitude 1.""" #I remmered that usually in coding people put the ''' for explaining a function!
     return 1 if int(2 * t) % 2 == 0 else -1
 
 def low_pass_filter(V_out, t, RC):
@@ -233,8 +244,8 @@ def rk4_method(f, x0, t0, t_end, dt, RC):
 # Parameters
 t0, t_end = 0, 10
 x0 = 0  # Initial condition Vout(0) = 0
-dt = 0.001  # Small step size for accuracy
-RC_values = [0.01, 0.1, 1]  # Different RC values
+dt = 0.001  # Small step size helps accuracy as i checked and it suggested to
+RC_values = [0.01, 0.1, 1]  # The Different RC values the book said to use
 
 plt.figure(figsize=(10, 6))
 
@@ -418,7 +429,7 @@ plt.show()
 
 ####### Question 4 ################################################################################################
 
-#My timing code is in time_fortran.sh
+#My timing code for FORTRAN is in time_fortran.sh
 
 
 #TIMING PYTHON 10,000 RK2
@@ -440,7 +451,7 @@ def differential_eq(x, t):
 # Initial conditions
 x0 = 1.0  # Given initial condition x = 1 at t = 0
 t0 = 0
-t_end_values = [100]  
+t_end_values = [5000]  
 dt = 0.1  # Single dt value
 
 # Start timing
@@ -457,7 +468,7 @@ end_time = time.time()
 execution_time = end_time - start_time
 
 # Print execution time
-print(f"Execution time Second-Order Runge-Kutta PYTHON Method N= 10,000 for dx/dt = -x^3 + sin(t): {execution_time:.6f} seconds")
+print(f"Execution time Second-Order Runge-Kutta PYTHON Method N= 5000 for dx/dt = -x^3 + sin(t): {execution_time:.6f} seconds")
 
 
 # Execution time Second-Order Runge-Kutta PYTHON Method N= 10,000 for dx/dt = -x^3 + sin(t): 0.337190 seconds
@@ -487,7 +498,7 @@ def differential_eq(x, t):
 # Initial conditions
 x0 = 1.0  # Initial condition is supposed to be x = 1 at t = 0
 t0 = 0
-t_end_values = [100]
+t_end_values = [5000]
 dt = 0.1  # Single dt value
 
 plt.figure(figsize=(10, 6))
@@ -503,15 +514,14 @@ for t_end in t_end_values:
 end_time1 = time.time()
 execution_time1 = end_time1 - start_time1
 
-print(f"Execution time Fourth-Order Runge-Kutta PYTHON Method N= 10,000 for dx/dt = -x^3 + sin(t): {execution_time1:.6f} seconds")
+print(f"Execution time Fourth-Order Runge-Kutta PYTHON Method N= 5000 for dx/dt = -x^3 + sin(t): {execution_time1:.6f} seconds")
 
 
 # THESE ARE THE VALUES I GOT
 
-#10000
+# for 10000
 
 # Execution time Second-Order Runge-Kutta PYTHON Method N= 10,000 for dx/dt = -x^3 + sin(t): 0.337190 seconds
-
 # Execution time Fourth-Order Runge-Kutta PYTHON Method N= 10,000 for dx/dt = -x^3 + sin(t): 0.540335 seconds
 
 #Runge Kuta 2 N=10000 FORTRAN Compilation time: .788077000 seconds
@@ -520,10 +530,53 @@ print(f"Execution time Fourth-Order Runge-Kutta PYTHON Method N= 10,000 for dx/d
 #Runge Kuta 4 N=10000 FORTRAN Compilation time: .460092000 seconds
 #Runge Kuta 4 N=10000 FORTRAN Execution time: .325523000 seconds
 
+## FOR RK2 Fortran is roughly 0.008429 seconds faster for N = 10000
+## FOR RK4 Fortran is roughly 0.214812 seconds faster for N = 10000
 
+# for 100
 
 # Execution time Second-Order Runge-Kutta PYTHON Method N= 100 for dx/dt = -x^3 + sin(t): 0.032223 seconds
 # Execution time Fourth-Order Runge-Kutta PYTHON Method N= 100 for dx/dt = -x^3 + sin(t): 0.005672 seconds
+
+#Runge Kuta 2 N=100 FORTRAN Compilation time: .651026000 seconds
+#Runge Kuta 2 N=100 FORTRAN Execution time: .318802000 seconds
+
+#Runge Kuta 4 N=100 FORTRAN Compilation time: .223648000 seconds
+#Runge Kuta 4 N=100 FORTRAN Execution time: .320132000 seconds
+
+## FOR N=100 the python method was fast for both RK2 and RK4
+
+# for 1000
+
+#Execution time Second-Order Runge-Kutta PYTHON Method N= 1000 for dx/dt = -x^3 + sin(t): 0.060420 seconds
+#Execution time Fourth-Order Runge-Kutta PYTHON Method N= 1000 for dx/dt = -x^3 + sin(t): 0.059072 seconds
+
+#Runge Kuta 2 N=1000 FORTRAN Compilation time: .757956000 seconds
+#Runge Kuta 2 N=1000 FORTRAN Execution time: .348925000 seconds
+
+#Runge Kuta 4 N=1000 FORTRAN Compilation time: .628578000 seconds
+#Runge Kuta 4 N=1000 FORTRAN Execution time: .322241000 seconds
+
+## FOR N=1000 the python method was fast for both RK2 and RK4
+
+# for 5000
+
+#Execution time Second-Order Runge-Kutta PYTHON Method N= 5000 for dx/dt = -x^3 + sin(t): 0.184358 seconds
+#Execution time Fourth-Order Runge-Kutta PYTHON Method N= 5000 for dx/dt = -x^3 + sin(t): 0.269574 seconds
+
+#Runge Kuta 2 N=5000 FORTRAN Compilation time: 764298000 seconds
+#Runge Kuta 2 N=5000 FORTRAN Execution time: .318473000 seconds
+
+#Runge Kuta 4 N=5000 FORTRAN Compilation time: 1.090806000 seconds
+#Runge Kuta 4 N=5000 FORTRAN Execution time: .338975000 seconds
+
+## FOR N=5000 the python method was fast for both RK2 and RK4
+
+### On my computer the Fortran code regardless of the N number always seemed to be about the same, 
+#I am not sure why. However I ran more runs and it was at or near t_end = 10000 that Fortran became fast 
+#than Python (atleast on my computer), I also had dt = 0.1 so 10000 would actually be 100000 but this 
+#was consistent across both Python and Fortran codes so can be held up
+
 
 
 ####### Question 5 ################################################################################################

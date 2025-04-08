@@ -6,18 +6,18 @@
 # Also, I have to run the command in my terminal ">$ brew install coreutils" to get the gdate to work if you have something
 # Other than a Mac you could probably just remove the g in gdate and run it and it should work
 
-echo "Compiling RK4_x^3-sin.f90..."
+echo "Compiling RK4.f90..."
 
 start_compile=$(gdate +%s.%N)
-gfortran RK4_x^3-sin.f90 -o RK4_x^3-sin.exe
+gfortran RK4.f90 -o RK4.exe
 end_compile=$(gdate +%s.%N)
 
 compile_time=$(echo "$end_compile - $start_compile" | bc -l)
 
-echo "Running RK4_x^3-sin.exe..."
+echo "Running RK4.exe..."
 
 start_exec=$(gdate +%s.%N)
-./RK4_x^3-sin.exe
+./RK4.exe
 end_exec=$(gdate +%s.%N)
 
 exec_time=$(echo "$end_exec - $start_exec" | bc -l)

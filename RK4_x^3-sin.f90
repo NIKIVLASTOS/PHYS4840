@@ -11,7 +11,7 @@ program RungeKutta4
     t_end = 10.0d0 ! Final time
     
     ! Number of time steps
-    n =  10000 !int((t_end - t) / dt)
+    n =  5000 !int((t_end - t) / dt)
 
     ! Start timing
     ! call cpu_time(start_time)
