@@ -104,7 +104,7 @@ def demo_noisy_sinusoid():
     # Signal with two frequencies
     # Can arbitraily choose these at the moment, and the signal function can be arbitrily chosen as well
     f1 = 42  # Frequency 1
-    f2 = 123 # and 2
+    f2 = 167 # and 2
     A1 = 1 # Amplitude 1
     A2 = 1 # and 2
     signal = np.sin(2 * np.pi * f1 * t) + 0.5 * np.sin(2 * np.pi * f2 * t)    
@@ -115,7 +115,8 @@ def demo_noisy_sinusoid():
     # Compute FT using our module
     # Computing the FFT
     X = np.fft.fft(noisy_signal)
-    
+
+    # Get only the first half of the spectrum (positive frequencies)
     half_n = len(X) // 2
     magnitudes = np.abs(X[:half_n]) / len(noisy_signal)
     

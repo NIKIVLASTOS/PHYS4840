@@ -151,7 +151,7 @@ def ifft(X):
 
 
 
-def compress_audio_fft(audio, keep_ratio=0.1):
+def compress_audio_fft(audio, keep_ratio=0.05):
     """
     Compress audio by keeping only the top `keep_ratio` frequency components (by magnitude).
     
@@ -163,20 +163,26 @@ def compress_audio_fft(audio, keep_ratio=0.1):
         compressed_audio (np.ndarray): Reconstructed audio from compressed frequency domain
         X_compressed (np.ndarray): The compressed spectrum (mostly zero)
     """
-    N = len(audio)
-    X = np.fft.fft(audio)
-    magnitudes = np.abs(X)
-    
-    # Determine how many frequencies to keep
-    #new_N = N * keep_ratio? something like that...
 
-    # Get indices of top frequencies by magnitude
-    #can we assume its already sorted? np.argsort() might be useful here...
+    #THIS (below) IS MOST OF WHAT I DID THE REST WAS PRETTY MUCH GIVEN TO US BY DR.MILLER
+
+    N = len(audio)
+    
+    # Use DFT from this above --not Numpy which i could use  by np.fft.fft:
+    X = dft(audio)
+    magnitudes = np.abs(X)
+
+    # Determining how many frequencies to keep
+    keep_num = int(N * keep_ratio)
+
+    # Get indices of top frequencies (this is done with argsort) and I am doing it by the magnitude (which was done a few lines above)
+    indices_to_keep = np.argsort(magnitudes)[::-1][:keep_num]  # Descending sort
 
     # Create a compressed version of the spectrum
-    #x_compressed = x (but only the kept indices)
+    X_compressed = np.zeros_like(X) #had to look up the zeros_like 
+    X_compressed[indices_to_keep] = X[indices_to_keep] #We did something similar to this call for like an 'indices to keep' in PHYS 3000 last semester
 
-    # Inverse FFT to get time-domain signal
-    #remember we did all of this on the frequency domain, turn it back into a signal...
-    
-    return 
+    # I am using the inverse of DFT to get time-domain signal
+    compressed_audio = idft(X_compressed).real  # the .real makes it so it is keeping the real part of this as almost always that is what is wanted/important
+
+    return compressed_audio, X_compressed
