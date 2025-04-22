@@ -163,5 +163,53 @@ plt.show()
 
 
 
+###
+
+
+# Here is Dr. Joyce's .roll method from 'laplace_using_roll.py'
+import numpy as np
+
+def laplacian_operator(Phi, dx, dy, dz):
+    """
+    Compute the Laplacian of a scalar field Phi (i.e., apply the Poisson operator)
+    using central finite differences on a 3D uniform grid.
+
+    Parameters:
+    - Phi : 3D numpy array of shape (nx, ny, nz)
+    - dx, dy, dz : grid spacings in x, y, z directions
+
+    Returns:
+    - laplacian : 3D numpy array of the same shape as Phi
+    """
+
+    laplacian = (
+        (np.roll(Phi, -1, axis=0) - 2*Phi + np.roll(Phi, 1, axis=0)) / dx**2 +
+        (np.roll(Phi, -1, axis=1) - 2*Phi + np.roll(Phi, 1, axis=1)) / dy**2 +
+        (np.roll(Phi, -1, axis=2) - 2*Phi + np.roll(Phi, 1, axis=2)) / dz**2
+    )
+
+    return laplacian
+
+# I have also added this to my functions library
+
+# numpy.roll() method 
+
+# I found this example online and it helped me understand what .roll is doing
+import numpy as np 
+   
+array = np.arange(12).reshape(3, 4) 
+print("Original array : \n", array) 
+   
+# Rolling array; Shifting one place 
+print("\nRolling with 1 shift : \n", np.roll(array, 1)) 
+  
+# Rolling array; Shifting five places 
+print("\nRolling with 5 shift : \n", np.roll(array, 5)) 
+  
+# Rolling array; Shifting five places with 0th axis 
+print("\nRolling with 2 shift with 0 axis : \n", np.roll(array, 2, axis = 0))
+
+
+
 
 
