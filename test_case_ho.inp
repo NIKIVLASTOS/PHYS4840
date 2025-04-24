@@ -1,0 +1,6 @@
+-10.0     ! xmin
+10.0      ! xmax
+500       ! Nx (number of grid points)
+5         ! neigs (number of eigenstates)
+1         ! potential_type (1 = harmonic, 2 = square well, etc.)
+1.0       ! parameter for harmonic potential (k value)

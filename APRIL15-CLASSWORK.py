@@ -158,8 +158,78 @@ plt.show()
 # iterations (usually taking more time) but it will be more accurate to a 'true' value
 
 # D) When the boundary conditions are being preserved in each of the 2D and 3D cases:
-# 2D case: 
-# 3D case: 
+# In the 2D case, boundary conditions are enforced on the four edges of the grid (top, bottom, left, right) 
+# by fixing the corresponding rows and columns. In the 3D case, boundary conditions must be applied 
+# to all six faces of the cube. In this code, the top face (z = 0) is set to a fixed voltage V
+# while the other five faces (z = N, x = 0, x = N, y = 0, y = N) are grounded (set to zero). 
+# This is enforced after each iteration to prevent the update step from modifying the boundaries.
+
+##### IN CLASS EXCERCISE #2 (Answering Questions ############################################################################################################################
+
+# A) The function np.roll(array, shift, axis) shifts the elements of a NumPy array by a given number of 
+# positions along a specified axis. The key feature of np.roll() is that it wraps around the elements 
+# that go past the edge, reintroducing them at the other end.
+
+# B) Code is below to solve -- the np.roll function can be found in my nikiphoros_functions_lib.py script
+
+import numpy as np
+import matplotlib.pyplot as plt
+from my_functions_lib import laplacian_operator
+
+# Constants
+N = 30              # Grid size (NxNxN cube)
+h = 1.0             # Grid spacing
+V = 1.0             # Voltage on top face (z = 0)
+target = 1e-6       # Convergence criterion
+max_iters = 10000   # Optional safety limit
+
+# Initialize potential arrays
+phi = np.zeros((N+1, N+1, N+1))
+phinew = np.empty_like(phi)
+
+# Apply boundary condition: top face at V
+phi[:,:,0] = V
+
+# Iterative solver (Jacobi-style using np.roll)
+delta = 1.0
+iteration = 0
+
+while delta > target and iteration < max_iters:
+    iteration += 1
+
+    # Use np.roll to compute the average of neighbors
+    phinew = (np.roll(phi, 1, axis=0) + np.roll(phi, -1, axis=0) +
+              np.roll(phi, 1, axis=1) + np.roll(phi, -1, axis=1) +
+              np.roll(phi, 1, axis=2) + np.roll(phi, -1, axis=2)) / 6.0
+
+    # Reapply boundary conditions after update
+    phinew[:,:,0] = V
+    phinew[:,:,N] = 0
+    phinew[:,0,:] = 0
+    phinew[:,N,:] = 0
+    phinew[0,:,:] = 0
+    phinew[N,:,:] = 0
+
+    # Compute convergence
+    delta = np.max(np.abs(phinew - phi))
+    phi = phinew
+
+    if iteration % 10 == 0:
+        print(f"Iteration {iteration}, max delta = {delta:.2e}")
+
+print(f"Converged in {iteration} iterations (Δ = {delta:.2e})")
+
+# Visualize middle slice in z-direction
+mid_z = N // 2
+plt.figure(figsize=(6,5))
+plt.imshow(phi[:,:,mid_z], origin='lower', cmap='inferno')
+plt.colorbar(label='Potential φ')
+plt.title(f"Midplane slice at z = {mid_z}")
+plt.xlabel('x')
+plt.ylabel('y')
+plt.tight_layout()
+plt.show()
+
 
 
 

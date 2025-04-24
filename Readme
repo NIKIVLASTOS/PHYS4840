@@ -1,0 +1,57 @@
+# SchrodingerSolver
+
+This project numerically solves the 1D time-independent Schrödinger equation using finite difference methods implemented in Fortran. A Python script is used to visualize the wavefunctions and their corresponding probability densities overlaid with the input potential.
+
+## 📌 Problem Solved
+This tool solves:
+
+\[ -\frac{1}{2} \frac{d^2 \psi(x)}{dx^2} + V(x)\psi(x) = E\psi(x) \]
+
+for an arbitrary 1D potential \( V(x) \), computing eigenvalues and eigenfunctions.
+
+## 💻 How it Works
+- Discretizes space with a uniform grid.
+- Builds the Hamiltonian matrix manually (Laplacian + potential).
+- Uses a placeholder eigenvalue solver (to be replaced with Jacobi or power iteration).
+- Normalizes wavefunctions.
+- Outputs \( x \), \( \psi_n(x) \), and \( E_n \).
+- A separate Python script plots both \( \psi_n(x) \) and \( |\psi_n(x)|^2 \) overlaid on the potential \( V(x) \).
+
+## 🧪 Sample Potential
+Currently uses:
+\[ V(x) = x^2 \] (quantum harmonic oscillator)
+
+## 📂 Output
+- `output/xgrid.txt` — spatial grid
+- `output/eigenvalues.txt` — computed energy levels
+- `output/wavefunctions.txt` — eigenfunctions (one per row)
+- `plots/` — PNG plots of wavefunctions and probability densities
+
+## ▶️ How to Run
+
+### Dependencies
+- **Fortran compiler** (e.g. `gfortran`)
+- **Python 3** with `numpy`, `matplotlib`
+
+### Instructions
+```bash
+make run
+```
+This compiles the Fortran code, runs the solver, and generates plots.
+
+### To clean:
+```bash
+make clean
+```
+
+## 🧠 To Do
+- Replace placeholder solver with real eigenvalue routine (e.g. Jacobi method)
+- Generalize to user-defined potentials (pass via file or flag)
+
+## 📌 Notes
+- All computations are in scaled units: \( \hbar = m = 1 \)
+- Only plots the lowest `neigs = 5` states by default
+- Fully terminal-compatible, no GUI or Jupyter used
+
+---
+ — PHYS4840 Final Project
