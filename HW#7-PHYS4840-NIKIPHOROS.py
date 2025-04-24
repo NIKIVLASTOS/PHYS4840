@@ -129,16 +129,16 @@ a = L / N          # Grid spacing
 h = 1e-4           # Time step
 epsilon = h / 1000 # Tolerance for float-time comparison
 
-T_lo = 0.0         # Boundary temperature on cold side (°C)
-T_hi = 50.0        # Boundary temperature on hot side (°C)
-T_mid = 20.0       # Initial interior temperature (°C)
+T_lo = 0.0         # Boundary temperature on cold side (C)
+T_hi = 50.0        # Boundary temperature on hot side (C)
+T_mid = 20.0       # Initial interior temperature (C)
 
 # Times at which to plot
 plot_times = [0.01, 0.1, 0.4, 1.0, 10.0]
 t_end = max(plot_times) + epsilon
 
 
-# Initialization
+# Initialize
 T = np.empty(N + 1)
 T[0] = T_hi
 T[N] = T_lo
@@ -168,13 +168,13 @@ while t < t_end:
             times_recorded.append(pt)
 
 
-# Plotting 
+# Plot
 x = np.linspace(0, L, N+1)
 for T_profile, time in zip(profiles, times_recorded):
     plt.plot(np.arange(N+1), T_profile, label=f"t = {time:.2f} s")
 
 plt.xlabel("x (grid index)")
-plt.ylabel("Temperature (°C)")
+plt.ylabel("Temperature (C)")
 plt.title("Heat Conduction (Example 9.3)")
 plt.legend()
 plt.grid(True)
@@ -198,15 +198,15 @@ h = 0.1                 # time step (in days)
 epsilon = h / 1000      # float comparison tolerance
 
 # Surface temperature oscillation
-A = 10.0                # mean surface temp (°C)
-B = 12.0                # seasonal variation amplitude (°C)
+A = 10.0                # mean surface temp (C)
+B = 12.0                # seasonal variation amplitude (C)
 tau = days_per_year     # period of oscillation
 
-# Initial temperature (entire column should start at 10°C)
+# Initial temperature (entire column should start at 10C)
 T = np.full(N + 1, 10.0)
 Tp = np.empty_like(T)
 
-# Boundary condition at bottom: constant 11°C
+# Boundary condition at bottom: constant 11C
 T[-1] = 11.0
 Tp[-1] = 11.0
 
@@ -247,7 +247,7 @@ for i, prof in enumerate(profiles):
     plt.plot(prof, z, label=label)
 
 plt.gca().invert_yaxis()
-plt.xlabel("Temperature (°C)")
+plt.xlabel("Temperature (C)")
 plt.ylabel("Depth (m)")
 plt.title("Temperature vs. Depth (Final Year)")
 plt.legend(title="Month")
@@ -259,19 +259,18 @@ plt.show()
 
 ##### Question 2  ############################################################################################################################
 
-#One numerical technique used in MESA that we studied in class is the Runge-Kutta method for solving systems of ordinary differential 
-#equations (ODEs). MESA applies this technique to integrate the stellar structure equations, which include mass conservation, 
+#One numerical technique used in MESA that we studied in class is the Runge Kutta method for solving systems of ordinary differential 
+# equations (ODEs). MESA applies this technique to integrate the stellar structure equations, which include mass conservation, 
 #hydrostatic equilibrium, energy generation, and energy transport. These equations describe how stellar quantities such as mass m(r), pressure 
-# P(r), temperature T(r), and luminosity L(r) vary with radius, and solving them accurately is essential for modeling the interior and evolution of stars.
-# In the MESA instrument paper, Section 3 (starting on p. 11) describes how the code solves these equations using adaptive Runge-Kutta 
+# P(r), temperature T(r), and luminosity L(r) vary with radius. Solving them (and doing it accurately) is important for modeling the interior and evolution of stars.
+# In the MESA instrument paper, Section 3 describes how the code solves these equations using adaptive Runge-Kutta 
 #integrators with embedded error estimates. This allows MESA to dynamically adjust the step size for improved accuracy and efficiency, 
 #especially in regions where the physical variables change rapidly, such as near the core or in burning shells. This technique is 
 #conceptually the same as the 4th-order Runge-Kutta method we studied in class—calculating multiple intermediate slopes to improve the 
 #stability and accuracy of the solution over each time step. The advantage of using adaptive Runge-Kutta in MESA is that it provides 
-#precise control over local truncation error while remaining computationally efficient. This is crucial for 
-#simulating stellar evolution over millions to billions of years. In essence, the Runge-Kutta technique solves the problem of 
-#integrating stiff, coupled differential equations reliably—a core challenge in computational astrophysics that MESA 
-#handles using techniques we've explored in class.
+#precise control over local error while remaining computationally efficient. This is crucial for simulating stellar evolution over 
+#millions to billions of years. Ultimately it seems the use of the Runge Kutta technique here (in MESA) solves the problem of integrating 
+# coupled differential equations reliably. Which from my limited understanding is obviously deepy importanf in computational astrophysics 
 
 # THIS IS A QUOTE DIRECTLY FROM THE PAPER (PAGE 11):
 
