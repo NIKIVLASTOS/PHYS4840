@@ -250,5 +250,10 @@ print(f"Execution time: {execution_time:.6f} seconds")
 
 # The Fortran code is in the file "oddball.f90" in my directory
 
-# Execution time for Python for 1000000 is 0.777801 seconds
+# Execution time for Python for 1,000,000 is 0.777801 seconds
+# Execution time for Python for 10,000,000 is 7.525302 seconds
+
+# Execution time for Fortran for 1,000,000 is .725383000 seconds
+# Execution time for Fortran for 10,000,000 is .731613000 seconds
+# Execution time for Fortran for 1,000,000,000 is 46.418649000 seconds
 

@@ -1,0 +1,7 @@
+-1.0       ! xmin
+1.0        ! xmax
+500        ! Nx
+5          ! neigs
+2          ! potential_type (2 = Infinite Square Well)
+1.0        ! param (ignored for square well)
+

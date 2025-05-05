@@ -8,30 +8,43 @@ contains
   !---------------------------------------------
   ! Build the Hamiltonian matrix H = T + V(x)
   !---------------------------------------------
-  subroutine build_hamiltonian(H, V, dx, N)
-    real(8), intent(out) :: H(N, N)
-    real(8), intent(in)  :: V(N), dx
-    integer, intent(in)  :: N
-    integer :: i
+subroutine build_hamiltonian(H, V, dx, N)
+  real(8), intent(out) :: H(N, N)
+  real(8), intent(in)  :: V(N), dx
+  integer, intent(in)  :: N
+  integer :: i
 
-    H = 0.0d0
-    do i = 1, N
-      H(i, i) = 2.0d0 / dx**2 + V(i)
-      if (i > 1) H(i, i-1) = -1.0d0 / dx**2
-      if (i < N) H(i, i+1) = -1.0d0 / dx**2
-    end do
-  end subroutine build_hamiltonian
+  ! Start with zero matrix
+  H = 0.0d0
+
+  ! Build finite difference Laplacian (tridiagonal)
+  do i = 1, N
+    H(i, i) = -2.0d0 / dx**2
+    if (i > 1) H(i, i-1) = 1.0d0 / dx**2
+    if (i < N) H(i, i+1) = 1.0d0 / dx**2
+  end do
+
+  ! Apply prefactor for kinetic energy operator: -ħ²/2m = -1/2 (in atomic units)
+  H = -0.5d0 * H
+
+  ! Add potential V(x) to diagonal
+  do i = 1, N
+    H(i, i) = H(i, i) + V(i)
+  end do
+end subroutine build_hamiltonian
 
   !---------------------------------------------------
   ! Jacobi method to find eigenvalues/eigenvectors
   !---------------------------------------------------
-  subroutine jacobi_solver(A, eigvals, eigvecs, N, neigs)
+   subroutine jacobi_solver(A, eigvals, eigvecs, N, neigs)
+    implicit none
     real(8), intent(in out) :: A(N,N)
     real(8), intent(out) :: eigvals(neigs), eigvecs(N, neigs)
     integer, intent(in) :: N, neigs
     real(8) :: V(N,N), tol, theta, t, c, s, tau, temp
     integer :: i, j, k, l, iter, max_iter
     real(8) :: max_val
+    integer :: idx(N)  ! ✅ Declare at the top, before any executable code
 
     V = 0.0d0
     do i = 1, N
@@ -85,23 +98,21 @@ contains
       end do
     end do
 
-    ! Extract eigenvalues and vectors
+    ! Extract eigenvalues and initialize index array
     do i = 1, N
       eigvals(i) = A(i,i)
-    end do
-
-    ! Sort and store lowest neigs
-    integer :: idx(N)
-    do i = 1, N
       idx(i) = i
     end do
+
     call sort_indices(eigvals, idx, N)
 
+    ! Store lowest neigs sorted eigenvalues/eigenvectors
     do i = 1, neigs
       eigvals(i) = A(idx(i), idx(i))
       eigvecs(:,i) = V(:,idx(i))
     end do
   end subroutine jacobi_solver
+
 
   !---------------------------------------------
   ! Normalize wavefunctions ψ(x)
