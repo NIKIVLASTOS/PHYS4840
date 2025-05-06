@@ -81,3 +81,15 @@ The solver generates:
 - Add more potential options (e.g., double-well)
 - Optimize diagonalization for larger systems
 
+## Tested Systems
+
+This project has been tested and verified to compile and run successfully on the following systems:
+
+- **macOS 10.15+** with `gfortran` (Homebrew) and Python 3.9+
+- **Wyoming ARCC (Medicine Bow)** HPC cluster using GNU compiler suite and Python 3.9+
+
+Compilation is managed via a standard `Makefile`. Python dependencies are minimal (NumPy and Matplotlib). No proprietary or platform-specific libraries are required.
+
+(CONSIDER LEAVING) If you encounter platform-specific issues, please open an issue on the GitHub repository.
+
+
