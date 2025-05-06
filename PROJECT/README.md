@@ -58,6 +58,53 @@ Where $H$ is the Hamiltonian matrix, assembled from the kinetic energy (Laplacia
 - **Fortran**: all numerical computation and simulation
 - **Python**: for reading output and plotting results
 
+## Input File Format
+
+The program reads simulation parameters from an input file named `input.txt`. The input file should follow the structure shown below, with comment lines (starting with `!`) describing each field:
+
+```txt
+! xmin xmax Nx
+-5 5 3000
+
+! potential_type
+1
+
+! num_eigenstates
+4
+
+! V0 (only used if potential_type == 3)
+100.0
+```
+
+### Field Descriptions
+
+- **xmin, xmax, Nx**:  
+  Define the spatial domain of the simulation.  
+  - `xmin`: minimum x-value  
+  - `xmax`: maximum x-value  
+  - `Nx`: number of spatial grid points
+
+- **potential_type**:  
+  Integer that selects the potential used in the simulation.  
+  - `1`: Harmonic oscillator  
+  - `2`: Infinite square well  
+  - `3`: Finite square well (uses `V0`)
+
+- **num_eigenstates**:  
+  Number of lowest-energy eigenstates to compute and output.
+
+- **V0**:  
+  Depth of the finite square well (only used if `potential_type == 3`).
+
+### Notes
+
+- Comment lines starting with `!` are ignored by the program.
+- The input file must not contain blank lines between parameters.
+- All values are space-delimited.
+
+Make sure your input file is saved as `input.txt` in the working directory when running the solver.
+
+
 ## Output
 
 The solver generates:
