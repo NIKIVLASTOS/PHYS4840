@@ -14,38 +14,38 @@ This project implements a command-line software tool that numerically solves the
 - Finite difference approximation for the second derivative
 - Jacobi diagonalization (implemented from scratch, not imported)
 - Outputs:
-  - Normalized eigenfunctions `ψ(x)`
+  - Normalized eigenfunctions $\psi(x)$
   - Corresponding energy eigenvalues
   - All results saved to plain text files
 - Python script to plot:
-  - Real-valued wavefunctions `ψ(x)`
-  - Probability densities `|ψ(x)|²`
-  - Input potential `V(x)`
+  - Real-valued wavefunctions $\psi(x)$
+  - Probability densities $|\psi(x)|^2$
+  - Input potential $V(x)$
 - Command-line interface with customizable input file
 - Fully modular and documented Fortran codebase
 - Includes `Makefile`, test case, and plotting script
 
 ## Methods
 
-We numerically solve the Schrödinger equation:
+We numerically solve the time-independent Schrödinger equation:
 
-```
-[-ħ²/(2m) * d²/dx² + V(x)] ψ(x) = E ψ(x)
-```
+$$
+\left[ -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + V(x) \right] \psi(x) = E \psi(x)
+$$
 
 Discretization is performed using the second-order central finite difference approximation:
 
-```
-d²ψ/dx² ≈ (ψ_{i+1} - 2ψ_i + ψ_{i-1}) / dx²
-```
+$$
+\frac{d^2 \psi}{dx^2} \approx \frac{\psi_{i+1} - 2\psi_i + \psi_{i-1}}{\Delta x^2}
+$$
 
 This leads to a matrix eigenvalue problem:
 
-```
-H ψ = E ψ
-```
+$$
+H \psi = E \psi
+$$
 
-Where `H` is the Hamiltonian matrix, assembled from the kinetic energy (Laplacian) and the user-defined potential.
+Where $H$ is the Hamiltonian matrix, assembled from the kinetic energy (Laplacian) and the user-defined potential.
 
 ## Numerical Techniques
 
@@ -65,7 +65,7 @@ The solver generates:
 - `xgrid.txt`: spatial grid
 - `eigenvalues.txt`: energy levels
 - `wavefunctions.txt`: eigenfunctions
-- Plots of `ψ(x)`, `|ψ(x)|²`, and `V(x)` saved to `plots/` directory
+- Plots of $\psi(x)$, $|\psi(x)|^2$, and $V(x)$ saved to the `plots/` directory
 
 ## Running the Code
 
@@ -83,3 +83,4 @@ The solver generates:
 ## License
 
 MIT License (or your preferred license)
+
