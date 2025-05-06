@@ -1,12 +1,12 @@
-# Schrödinger Equation Solver – PHYS 4840 Final Project
+# Schrodinger Equation Solver – PHYS 4840 Final Project
 
 ## Overview
 
-This project develops a software tool (usable from the terminal) written primarily in Fortran to numerically solve the one-dimensional time-independent Schrödinger equation using finite difference methods. The user provides simulation parameters via an input file, including the spatial domain, grid resolution, number of eigenstates to compute, and a potential type such as the quantum harmonic oscillator (potential types are specified in the code and selected numerically, e.g., 1 for harmonic oscillator, 2 for infinite square well, etc.). The program constructs the Hamiltonian matrix manually from the finite-difference Laplacian and the user-defined potential, then solves the resulting eigenvalue problem using a fully implemented Jacobi diagonalization algorithm—without relying on built-in diagonalizers. The output includes normalized eigenfunctions and their corresponding energy eigenvalues, saved to text files. A separate Python script reads these outputs and generates plots of both the real-valued wavefunctions $\psi_n(x)$ and the probability densities $|\psi_n(x)|^2$, each overlaid with the input potential function $V(x)$ for visual comparison. All code is modularized, well-documented, and runs entirely from the command line. The full project is hosted on GitHub with a Makefile, README, input test case, and plotting script. Time permitting, the code may also be submitted to PyPI.
+This project develops a software tool (usable from the terminal) written primarily in Fortran to numerically solve the one-dimensional time-independent Schrodinger equation using finite difference methods. The user provides simulation parameters via an input file, including the spatial domain, grid resolution, number of eigenstates to compute, and a potential type such as the quantum harmonic oscillator (potential types are specified in the code and selected numerically, e.g., 1 for harmonic oscillator, 2 for infinite square well, etc.). The program constructs the Hamiltonian matrix manually from the finite-difference Laplacian and the user-defined potential, then solves the resulting eigenvalue problem using a fully implemented Jacobi diagonalization algorithm—without relying on built-in diagonalizers. The output includes normalized eigenfunctions and their corresponding energy eigenvalues, saved to text files. A separate Python script reads these outputs and generates plots of both the real-valued wavefunctions $\psi_n(x)$ and the probability densities $|\psi_n(x)|^2$, each overlaid with the input potential function $V(x)$ for visual comparison. All code is modularized, well-documented, and runs entirely from the command line. The full project is hosted on GitHub with a Makefile, README, input test case, and plotting script. Time permitting, the code may also be submitted to PyPI.
 
 ## Features
 
-- Solves the 1D time-independent Schrödinger equation
+- Solves the 1D time-independent Schrodinger equation
 - User-defined potential options:
   - Harmonic oscillator
   - Infinite square well
@@ -27,7 +27,7 @@ This project develops a software tool (usable from the terminal) written primari
 
 ## Methods
 
-We numerically solve the time-independent Schrödinger equation:
+We numerically solve the time-independent Schrodinger equation:
 
 $$
 \left[ -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + V(x) \right] \psi(x) = E \psi(x)
