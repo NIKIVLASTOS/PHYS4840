@@ -415,7 +415,7 @@ Here is an example plot of computed wavefunctions overlaid with the potential $V
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/NIKIVLASTOS/PHYS4840/edit/main/PROJECT
+git clone [https://github.com/NIKIVLASTOS/PHYS4840/edit/main/PROJECT](https://github.com/NIKIVLASTOS/PHYS4840/tree/main/PROJECT)
 ```
 ### 2.  Install Python dependencies
 ```bash
