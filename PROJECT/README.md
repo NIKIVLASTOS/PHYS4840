@@ -366,13 +366,13 @@ The current version expects `input.txt` to follow a strict format with **no blan
 
 ```text
 ! xmin xmax Nx
--5 5 1000
+-10 10 305
 
 ! potential_type
 1
 
 ! num_eigenstates
-4
+5
 
 ! V0 (ignored unless potential_type = 3)
 0.0
@@ -386,6 +386,20 @@ The solver generates:
 - `eigenvalues.txt`: energy levels
 - `wavefunctions.txt`: eigenfunctions
 - Plots of $\psi(x)$, $|\psi(x)|^2$, and $V(x)$ saved to the `plots/` directory
+
+## Example Output
+
+Here is an example plot of computed wavefunctions overlaid with the potential $V(x)$ and energy levels $E_n$ using the above "Example Valid Input":
+
+### 1. Wavefunctions overlaid with Potential and Energy Levels
+![Wavefunctions](wavefunctions.png)
+
+### 2. Probability Densities overlaid with Potential and Energy Levels
+![Probability Densities](probability_densities.png)
+
+### 3. Raw Wavefunctions (Unscaled)
+![Raw Wavefunctions](raw_wavefunctions.png)
+
 
 ## Running the Code
 
