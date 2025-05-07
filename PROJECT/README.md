@@ -393,7 +393,7 @@ The solver generates:
 2. Edit `input.txt` to set parameters (grid, potential, number of states, etc.)
 3. Run `make` to compile
 4. Execute `make run` to run the solver and generate plots
-5. Executre 'make clean' to clean the directory for a new run
+5. Executre `make clean` to clean the directory for a new run
 
 ## Future Goals
 
