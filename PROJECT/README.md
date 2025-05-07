@@ -140,14 +140,16 @@ This subroutine performs normalization on a 2D array of wavefunctions, where eac
   - The L2 norm is computed using the rectangular (midpoint) rule:
 
     $$
-    \mathrm{norm} = \sqrt{\displaystyle\sum_i \psi_n(x_i)^2 \cdot \Delta x}
+    \\mathrm{norm} = \\displaystyle\\sqrt{\\sum_i \\psi_n(x_i)^2 \\cdot \\Delta x}
     $$
+
 
   - The wavefunction is then rescaled:
 
     $$
-    \psi_n(x_i) \leftarrow \frac{\psi_n(x_i)}{\mathrm{norm}}
+    \\psi_n(x_i) \\leftarrow \\displaystyle\\frac{\\psi_n(x_i)}{\\mathrm{norm}}
     $$
+
 
 This ensures each wavefunction is properly normalized before plotting or analysis. The procedure is numerically stable, uses vectorized Fortran operations, and works for any number of computed states.
 
