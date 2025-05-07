@@ -340,12 +340,14 @@ The current version expects `input.txt` to follow a strict format with **no blan
 - **Nx**:
   - Positive integer
   - Must be ≥ 100 (recommended: ≥ 500 for accurate results)
+  - Increaseing Nx will increase computation time
 - **potential_type**:
   - `1` = Harmonic Oscillator (`V(x) = x²`)
   - `2` = Infinite Square Well
   - `3` = Finite Square Well (requires `V0`)
   - `4` = Step Potential
   - `5` = Stepped Trap Potential
+  - `6` = Stepped Barrier Potential
 - **num_eigenstates**:
   - Positive integer
   - Must be ≤ `Nx`
