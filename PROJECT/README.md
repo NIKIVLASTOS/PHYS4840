@@ -70,7 +70,7 @@ This module defines a suite of potential energy functions used in constructing t
   Returns $V(x) = \frac{1}{2} m \omega^2 x^2$ using default parameters $m = 1$, $\omega = 1$. This is a classic quantum mechanical potential with analytically known eigenvalues for comparison.
 
 - **Infinite Square Well (`infinite_square_well`)**  
-  Models a box of width $x_{\text{max}} - x_{\text{min}}$ with infinite potential outside the domain. Returns a large constant (`1.0d20`) when $x$ is outside the bounds, and zero within.
+  Models a box of width $x_{\text{max}} - 1 - x_{\text{min}} + 1$ with infinite potential outside the domain. Returns a large constant (`1.0d20`) when $x$ is outside the bounds, and zero within.
 
 - **Finite Square Well (`finite_square_well`)**  
   Similar to the infinite well, but allows the user to specify a finite barrier height `V0`. Inside the well ($x_{\text{min}} < x < x_{\text{max}}$), the potential is zero; outside, it is set to `V0`.
