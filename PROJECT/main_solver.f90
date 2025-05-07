@@ -2,7 +2,7 @@
 ! File: main_solver.f90                                                     ! Main program for solving the 1D Schrödinger equation
 !==============================
 
-program main_solver                                                          ! Program entry point
+program main_solver                                                          ! Start
   use potential_functions                                                    ! Use module for potential energy functions (from potential_functions.f90)
   use matrix_tools                                                           ! Use module for Jacobi diagonalization (from matrix_tools.f90)
   use normalization                                                          ! Use module for wavefunction normalization (from normalization.f90)
@@ -51,14 +51,20 @@ program main_solver                                                          ! P
 
   ! === Construct symmetric spatial grid and potential ===
   do i = 1, Nx
-    x(i) = -0.5d0 * width + real(i - 1, kind=8) * dx                         ! Centered grid: x from -width/2 to +width/2
+    x(i) = -0.5d0 * width + real(i - 1, kind=8) * dx                         ! Centered grid: x from  negative width/2 to  positive width/2
     select case (pot_type)
     case (1)
-      V(i) = 5500.0d0 * harmonic_oscillator(x(i))                            ! Scale factor added harmonic oscillator potential
+      V(i) = 100.0d0 * harmonic_oscillator(x(i))                            ! Scale factor added harmonic oscillator potential
     case (2)
-      V(i) = infinite_square_well(x(i), -0.5d0 * width, 0.5d0 * width)       ! Infinite well across domain
+      V(i) = infinite_square_well(x(i), -0.5d0 * width + dx, 0.5d0 * width - dx) ! Infinite square well
     case (3)
       V(i) = finite_square_well(x(i), -0.5d0 * width, 0.5d0 * width, V0)     ! Finite well across domain
+    case (4)
+      V(i) = step_potential(x(i))                                             ! Normal step function
+    case (5)
+      V(i) = stepped_trap(x(i))                                                ! Use custom step + wall potential
+    case (6)
+      V(i) = step_barrier(x(i))
     end select
   end do
 
@@ -82,28 +88,28 @@ program main_solver                                                          ! P
   end do
   close(88)
 
-  call jacobi(H, Nx, eigvals, eigvecs, 10000, 1.0d-10)                        ! Diagonalize Hamiltonian
+  call jacobi(H, Nx, eigvals, eigvecs, 1000000, 1.0d-10)                        ! Diagonalize Hamiltonian
   call sort_eigenpairs(eigvals, eigvecs, Nx)                                 ! Sort eigenpairs in ascending order
   call normalize_wavefunctions(eigvecs, dx)                                  ! Normalize wavefunctions
 
   ! === Save results ===
-  open(20, file='xgrid.txt')                                                 ! Save spatial grid (to xgrid.txt)
+  open(22, file='xgrid.txt')                                                 ! Save spatial grid (to xgrid.txt)
   do i = 1, Nx
-    write(20,*) x(i)
-  end do
-  close(20)
-
-  open(21, file='eigenvalues.txt')                                           ! Save eigenvalues (to eigenvalues.txt)
-  do i = 1, nstates
-    write(21,*) eigvals(i)
-  end do
-  close(21)
-
-  open(22, file='wavefunctions.txt')                                         ! Save eigenvectors (wavefunctions) (to wavefunctions.txt)
-  do i = 1, nstates
-    write(22,'(10000f20.12)') eigvecs(:,i)
+    write(22,*) x(i)
   end do
   close(22)
+
+  open(33, file='eigenvalues.txt')                                           ! Save eigenvalues (to eigenvalues.txt)
+  do i = 1, nstates
+    write(33,*) eigvals(i)
+  end do
+  close(33)
+
+  open(44, file='wavefunctions.txt')                                         ! Save eigenvectors (wavefunctions) (to wavefunctions.txt)
+  do i = 1, nstates
+    write(44,'(10000f20.12)') eigvecs(:,i)
+  end do
+  close(44)
 
   print *, "Computation complete. Output files written."                     ! print message to user (or Dr.Joyce/grader)
 

@@ -33,7 +33,7 @@ subroutine jacobi(A, n, eigvals, eigvecs, max_iter, tol)                        
       end do
     end do
 
-    off_diag_sum = 0.0d0                    ! Compute total off-diagonal Frobenius norm (the square root of the sum of the squares of all off-diagonal elements of the matrix.)
+    off_diag_sum = 0.0d0                    !Compute total off-diagonal 'Frobenius' norm (the square root of the sum of the squares of all off-diagonal elements of the matrix.)
     do p = 1, n
       do q = 1, n
         if (p /= q) off_diag_sum = off_diag_sum + A(p,q)**2                     ! Sum of squares of off-diagonal elements
