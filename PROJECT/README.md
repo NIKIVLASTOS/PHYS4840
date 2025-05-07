@@ -371,7 +371,7 @@ The current version expects `input.txt` to follow a strict format with **no blan
 0.0
 
 
-## Output
+### Output
 
 The solver generates:
 
