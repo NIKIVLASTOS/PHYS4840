@@ -85,6 +85,14 @@ This module defines a suite of potential energy functions used in constructing t
   - $V(x) = 10^6$ for $x \geq 3$  
   This potential mimics a semi-infinite step followed by a hard wall to create confinement.
 
+- **Step Barrier (`step_barrier`)**  
+  A localized barrier in the middle of the domain:
+  - $V(x) = 0$ for $x < 0$
+  - $V(x) = 5$ for $0 \leq x \leq 5$
+  - $V(x) = 0$ for $x > 5$  
+  This potential models a finite-width barrier (height = 5 units, width = 5 units) and is useful for testing partial transmission and tunneling effects.
+
+
 Each function is pure and independent, enabling easy extension of the module to support additional potentials. These functions are called in the main solver to construct the potential energy term $V(x_i)$ at each grid point.
 
 ### `matrix_tools.f90`
