@@ -121,6 +121,7 @@ This is a complete, from-scratch implementation of the classical **Jacobi eigenv
 - **Manual selection of pivot elements**: finds the largest off-diagonal term for each rotation step.
 - **Orthogonal rotations**: uses a numerically stable formulation for the rotation angle to avoid overflow or precision issues.
 - **Frobenius norm check**: monitors the sum of squares of off-diagonal elements to check convergence.
+> A small Frobenius norm of the off-diagonal elements indicates that these elements are approaching zero, meaning the matrix `A` is becoming increasingly diagonal. The diagonal elements of a diagonal matrix are its eigenvalues.
 - **Symmetry enforcement**: updates both rows and columns during rotation to maintain symmetry.
 - **Eigenvector accumulation**: rotates the identity matrix alongside `A` to accumulate eigenvectors.
 - **Diagnostic output**: optional print statement every 500 iterations for tracking convergence progress.
