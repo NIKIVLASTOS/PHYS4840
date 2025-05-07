@@ -208,7 +208,7 @@ This is the main driver program for solving the **one-dimensional time-independe
 This program serves as the computational backbone of the solver, linking together all physical modeling and numerical components into a single executable workflow.
 ### `plot_results.py`
 
-This Python script visualizes the numerical results computed by the Fortran solver. It reads the output files (`xgrid.txt`, `eigenvalues.txt`, and `wavefunctions.txt`) and produces publication-ready plots of the wavefunctions, probability densities, and input potential. All plots are saved in a `plots/` directory.
+This Python script visualizes the numerical results computed by the Fortran solver. It reads the output files (`xgrid.txt`, `eigenvalues.txt`, and `wavefunctions.txt`) and produces plots of the wavefunctions, probability densities, and input potential. All plots are saved in a `plots/` directory.
 
 #### Responsibilities:
 
@@ -228,6 +228,7 @@ This Python script visualizes the numerical results computed by the Fortran solv
     - `3`: Finite square well
     - `4`: Step potential
     - `5`: Stepped trap potential
+    - `6`: Stepped barrier potential
 
 - **Plot Generation**:
   - **Raw Wavefunctions**:  
