@@ -418,8 +418,9 @@ Here is an example plot of computed wavefunctions overlaid with the potential $V
 git clone https://github.com/NIKIVLASTOS/PHYS4840/edit/main/PROJECT
 ```
 ### 2.  Install Python dependencies
-
+```bash
 pip install numpy matplotlib
+```
 ### 3.  Compile the solver
 Use the provided `makefile` to compile the Fortran source:
 ```bash
