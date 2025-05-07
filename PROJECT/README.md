@@ -10,6 +10,10 @@ This project develops a software tool (usable from the terminal) written primari
 - User-defined potential options:
   - Harmonic oscillator
   - Infinite square well
+  - Finite square well
+  - Step Potential
+  - Step trap Potential
+  - Step Barrier Potential
   - (Others can be added numerically)
 - Finite difference approximation for the second derivative
 - Jacobi diagonalization (implemented from scratch, not imported)
