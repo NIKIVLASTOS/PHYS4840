@@ -369,7 +369,7 @@ The current version expects `input.txt` to follow a strict format with **no blan
 
 ! V0 (ignored unless potential_type = 3)
 0.0
-
+```
 
 ### Output
 
