@@ -322,6 +322,46 @@ The program reads simulation parameters from an input file named `input.txt`. Th
 
 Make sure your input file is saved as `input.txt` in the working directory when running the solver.
 
+## Constraints and Supported Inputs
+
+The current version expects `input.txt` to follow a strict format with **no blank lines between entries** (comment lines beginning with `!` are allowed and ignored). The constraints for each input field are:
+
+- **xmin, xmax**:
+  - Floating-point numbers
+  - Must satisfy `xmax > xmin`
+- **Nx**:
+  - Positive integer
+  - Must be ≥ 100 (recommended: ≥ 500 for accurate results)
+- **potential_type**:
+  - `1` = Harmonic Oscillator (`V(x) = x²`)
+  - `2` = Infinite Square Well
+  - `3` = Finite Square Well (requires `V0`)
+  - `4` = Step Potential
+  - `5` = Stepped Trap Potential
+- **num_eigenstates**:
+  - Positive integer
+  - Must be ≤ `Nx`
+- **V0**:
+  - Required **only if** `potential_type == 3`
+  - Must be a positive floating-point number
+
+> **Note**: The program does not currently validate user input, so malformed or missing entries in `input.txt` may result in runtime errors. Future versions will include error checking and improved flexibility.
+
+### Example Valid Input
+
+```text
+! xmin xmax Nx
+-5 5 1000
+
+! potential_type
+1
+
+! num_eigenstates
+4
+
+! V0 (ignored unless potential_type = 3)
+0.0
+
 
 ## Output
 
