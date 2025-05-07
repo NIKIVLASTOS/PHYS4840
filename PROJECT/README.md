@@ -138,15 +138,19 @@ This subroutine performs normalization on a 2D array of wavefunctions, where eac
 ##### Behavior:
 - For each wavefunction $\psi_n(x)$:
   - The L2 norm is computed using the rectangular (midpoint) rule:
+
     $$
-    \text{norm} = \sqrt{\sum_i \psi_n(x_i)^2 \cdot \Delta x}
+    \mathrm{norm} = \sqrt{\sum_i \psi_n(x_i)^2 \cdot \Delta x}
     $$
+
   - The wavefunction is then rescaled:
+
     $$
-    \psi_n(x_i) \leftarrow \frac{\psi_n(x_i)}{\text{norm}}
+    \psi_n(x_i) \leftarrow \frac{\psi_n(x_i)}{\mathrm{norm}}
     $$
 
 This ensures each wavefunction is properly normalized before plotting or analysis. The procedure is numerically stable, uses vectorized Fortran operations, and works for any number of computed states.
+
 
 This subroutine should be called after diagonalizing the Hamiltonian but before writing the wavefunctions to file.
 ### `main_solver.f90`
