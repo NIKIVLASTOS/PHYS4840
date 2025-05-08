@@ -422,7 +422,11 @@ git clone https://github.com/NIKIVLASTOS/PHYS4840.git
 ```bash
 cd PHYS4840/PROJECT
 ```
-### 3. Edit input file
+### 3.  Install Python dependencies
+```bash
+pip install numpy matplotlib
+```
+### 4. Edit input file
 
 ```bash
 vi input.txt
@@ -431,10 +435,6 @@ edit file as desired
 
 ```bash
 :wq
-```
-### 4.  Install Python dependencies
-```bash
-pip install numpy matplotlib
 ```
 ### 5.  Compile the solver
 Use the provided `makefile` to compile the Fortran source:
