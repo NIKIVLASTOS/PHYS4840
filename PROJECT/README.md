@@ -362,6 +362,7 @@ The current version expects `input.txt` to follow a strict format with **no blan
 - **V0**:
   - Required **only if** `potential_type == 3`
   - Must be a positive floating-point number
+  - Values from 10-100 have been tested
 
 > **Note**: The program does not currently validate user input, so malformed or missing entries in `input.txt` may result in runtime errors. Future versions will include error checking and improved flexibility.
 
