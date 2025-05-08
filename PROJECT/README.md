@@ -442,7 +442,6 @@ Use the provided `makefile` to compile the Fortran source:
 make
 ```
 ### 6. Run the simulation and generate plots
-Make edits to the `input.txt` file then run:
 ```bash
 make run
 ```
