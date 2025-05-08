@@ -459,7 +459,7 @@ make run
 
 ## Future Goals
 
-- Upload the package to PyPI (time permitting)
+- Upload the package to PyPI
 - Add more potential options (e.g., double-well)
 - Optimize diagonalization for larger systems
 
