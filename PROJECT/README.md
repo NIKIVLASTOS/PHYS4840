@@ -347,12 +347,13 @@ The current version expects `input.txt` to follow a strict format with **no blan
 - **xmin, xmax**:
   - Floating-point numbers
   - Must satisfy `xmax > xmin`
+  - Has been tests for `xmax: 5-10` and `xmin: -5 - -10`
 - **Nx**:
   - Positive integer
   - Must be ≥ 100 (recommended: ≥ 500 for accurate results)
   - Increaseing Nx will increase computation time
   - Minimum Nx value of 200 recommended
-  - Has not been tested for Nx values over 2500
+  - Has not been tested for Nx values over 500
 - **potential_type**:
   - `1` = Harmonic Oscillator (`V(x) = x²`)
   - `2` = Infinite Square Well
@@ -363,6 +364,8 @@ The current version expects `input.txt` to follow a strict format with **no blan
 - **num_eigenstates**:
   - Positive integer
   - Must be ≤ `Nx`
+  - Has been tested for values 1 - 15
+  - Inputting greater than 15 can cause the plots to become overly cluttered
 - **V0**:
   - Required **only if** `potential_type == 3`
   - Must be a positive floating-point number
