@@ -357,7 +357,7 @@ The current version expects `input.txt` to follow a strict format (comment lines
 - **potential_type**:
   - `1` = Harmonic Oscillator (`V(x) = x²`)
   - `2` = Infinite Square Well
-  - `3` = Finite Square Well (requires `V0`)
+  - `3` = Finite Square Well (requires `V0` to be specified on the `input.txt` file)
   - `4` = Step Potential
   - `5` = Stepped Trap Potential
   - `6` = Stepped Barrier Potential
