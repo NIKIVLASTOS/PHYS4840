@@ -342,7 +342,7 @@ Make sure your input file is saved as `input.txt` in the working directory when 
 
 ## Constraints and Supported Inputs
 
-The current version expects `input.txt` to follow a strict format with **no blank lines between entries** (comment lines beginning with `!` are allowed and ignored). The constraints for each input field are:
+The current version expects `input.txt` to follow a strict format (comment lines beginning with `!` are allowed and ignored). When altering the input file only change the numbers (not their location or adding and taking out any spaces or lines in the file), as other modifications to the input file have not been tested. The constraints for each input field are:
 
 - **xmin, xmax**:
   - Floating-point numbers
