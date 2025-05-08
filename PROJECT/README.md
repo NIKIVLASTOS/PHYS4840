@@ -467,8 +467,8 @@ make run
 
 This project has been tested and verified to compile and run successfully on the following systems:
 
-- **macOS 10.15+** with `gfortran` (Homebrew), Python 3.9+, numpy 1.26.1, matplotlib 3.9.4
-- **Wyoming ARCC (Medicine Bow)** HPC cluster using GNU compiler suite and Python 3.9+, numpy 1.26.4, matplotlib 3.9.4 
+- **macOS 10.15+** with `gfortran` (Homebrew), Python 3.13.1, numpy 1.26.1, matplotlib 3.9.4
+- **Wyoming ARCC (Medicine Bow)** HPC cluster using GNU compiler suite and Python 3.9.21, numpy 1.26.4, matplotlib 3.9.4 
 
 Compilation is managed via a standard `Makefile`. Python dependencies are minimal (NumPy and Matplotlib). No proprietary or platform-specific libraries are required.
 
