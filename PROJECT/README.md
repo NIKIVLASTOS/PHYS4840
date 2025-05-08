@@ -210,7 +210,7 @@ This is the main driver program for solving the **one-dimensional time-independe
 - **Internal Procedure: `sort_eigenpairs`**  
   Sorts eigenvalues and corresponding eigenvectors using a basic selection sort algorithm to ensure energy levels are ordered from lowest to highest.
 
-This program serves as the computational backbone of the solver, linking together all physical modeling and numerical components into a single executable workflow.
+This program serves as the computational 'backbone' of the solver, linking together all physical modeling and numerical components into a single executable workflow.
 ### `plot_results.py`
 
 This Python script visualizes the numerical results computed by the Fortran solver. It reads the output files (`xgrid.txt`, `eigenvalues.txt`, and `wavefunctions.txt`) and produces plots of the wavefunctions, probability densities, and input potential. All plots are saved in a `plots/` directory.
